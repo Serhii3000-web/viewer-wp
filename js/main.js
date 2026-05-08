@@ -1,148 +1,109 @@
-document.addEventListener('DOMContentLoaded', ()=>{
+class Viewer360 {
 
-    const canvas = document.getElementById('viewerCanvas');
-    const container = canvas.parentElement;
-    const ctx = canvas.getContext('2d');
+    constructor(element) {
 
-    const totalFrames = 48;
-    const images = [];
+        // ---------- root ----------
+        this.element = element;
 
-    const urlFolder='Abaddon the Despoiler';
+        // ---------- data ----------
+        this.folder = element.dataset.folder;
+        this.totalFrames = parseInt(element.dataset.frames);
 
-    let currentFrame = 0;
-    let isDragging = false;
-    let lastX = 0;
-    let velocity = 0;
+        // ---------- canvas ----------
+        this.canvas = element.querySelector('.viewer-canvas');
+        this.ctx = this.canvas.getContext('2d');
 
-    // ---------- загрузка с fallback JPG -> PNG ----------
-    function loadImage(index) {
-        const num = String(index + 1).padStart(2, '0');
+        // ---------- state ----------
+        this.images = [];
+        this.currentFrame = 0;
 
-        const img = new Image();
+        // ---------- init ----------
+        this.preloadImages();
 
-        const jpgPath = `img/${urlFolder}/${num}.jpg`;
-        const pngPath = `img/${urlFolder}/png/${num}.png`;
+        window.addEventListener('resize', () => {
+            this.resizeCanvas();
+        });
 
-        img.src = jpgPath;
-
-        img.onerror = () => {
-            img.src = pngPath;
-        };
-
-        return img;
+        this.resizeCanvas();
     }
 
     // ---------- preload ----------
-    for (let i = 0; i < totalFrames; i++) {
-        const img = loadImage(i);
-        images.push(img);
+    preloadImages() {
 
-        img.onload = () => {
-            if (i === 0) draw();
+        for (let i = 0; i < this.totalFrames; i++) {
+
+            const img = new Image();
+
+            const num = String(i + 1).padStart(2, '0');
+
+            img.src = `./img/${this.folder}/${num}.png`;
+
+            this.images.push(img);
+
+            img.onload = () => {
+
+                if (i === 0) {
+                    this.draw();
+                };
+
+            };
+
         };
-    }
 
-    // ---------- resize canvas ----------
-    function resizeCanvas() {
-        const rect = container.getBoundingClientRect();
+    };
 
-        canvas.width = rect.width;
-        canvas.height = rect.height;
+    // ---------- resize ----------
+    resizeCanvas() {
 
-        draw();
-    }
+        const rect = this.element.getBoundingClientRect();
 
-    window.addEventListener('resize', resizeCanvas);
-    resizeCanvas();
+        this.canvas.width = rect.width;
+        this.canvas.height = rect.height;
+
+        this.draw();
+
+    };
 
     // ---------- draw ----------
-    function draw() {
-        const img = images[currentFrame];
+    draw() {
+
+        const img = this.images[this.currentFrame];
+
         if (!img || !img.complete) return;
 
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        this.ctx.clearRect(
+            0,
+            0,
+            this.canvas.width,
+            this.canvas.height
+        );
 
         const scale = Math.min(
-            canvas.width / img.width,
-            canvas.height / img.height
+            this.canvas.width / img.width,
+            this.canvas.height / img.height
         );
 
         const w = img.width * scale;
         const h = img.height * scale;
 
-        const x = (canvas.width - w) / 2;
-        const y = (canvas.height - h) / 2;
+        const x = (this.canvas.width - w) / 2;
+        const y = (this.canvas.height - h) / 2;
 
-        ctx.drawImage(img, x, y, w, h);
-    }
+        this.ctx.drawImage(img, x, y, w, h);
 
-    // ---------- loop ----------
-    function show(frame) {
-        currentFrame = (frame + totalFrames) % totalFrames;
-        draw();
-    }
+    };
 
-    // ---------- движение ----------
-    function move(clientX) {
-        const dx = clientX - lastX;
-        velocity = dx;
+};
 
-        const framesPerWidth = totalFrames / container.offsetWidth;
-        const step = dx * framesPerWidth;
+// ---------- create viewers ----------
+document.addEventListener('DOMContentLoaded', () => {
 
-        if (Math.abs(step) >= 1) {
-            show(currentFrame + Math.floor(step));
-            lastX = clientX;
-        }
-    }
+    const viewers = document.querySelectorAll('.viewer-360');
 
-    // ---------- mouse ----------
-    canvas.addEventListener('mousedown', (e) => {
-        isDragging = true;
-        lastX = e.clientX;
+    viewers.forEach((viewerElement) => {
+
+        new Viewer360(viewerElement);
+
     });
-
-    window.addEventListener('mouseup', () => {
-        isDragging = false;
-    });
-
-    // ---------- touch ----------
-    canvas.addEventListener('touchstart', (e) => {
-        isDragging = true;
-        lastX = e.touches[0].clientX;
-    });
-
-    window.addEventListener('touchend', () => {
-        isDragging = false;
-    });
-
-    canvas.addEventListener('touchmove', (e) => {
-        if (!isDragging) return;
-        move(e.touches[0].clientX);
-    });
-
-    // ---------- mouse move ----------
-    window.addEventListener('mousemove', (e) => {
-        if (!isDragging) return;
-        move(e.clientX);
-    });
-
-    // ---------- inertia ----------
-    function inertia() {
-        if (!isDragging && Math.abs(velocity) > 0.3) {
-            velocity *= 0.95;
-
-            const framesPerWidth = totalFrames / container.offsetWidth;
-            const step = velocity * framesPerWidth;
-
-            if (Math.abs(step) >= 1) {
-                show(currentFrame + Math.floor(step));
-            }
-        }
-
-        requestAnimationFrame(inertia);
-    }
-
-    inertia();
 
 });
