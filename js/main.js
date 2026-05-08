@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
         const img = new Image();
 
         const jpgPath = `img/${urlFolder}/${num}.jpg`;
-        const pngPath = `img/${urlFolder}/${num}.png`;
+        const pngPath = `img/${urlFolder}/png/${num}.png`;
 
         img.src = jpgPath;
 
