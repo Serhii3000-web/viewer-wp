@@ -33,8 +33,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
         });
 
-        viewers[activeIndex]
-            .resizeCanvas();
+        viewers.forEach((viewer, index) => {
+
+            if (index === activeIndex) {
+
+                viewer.activate();
+                viewer.resizeCanvas();
+
+            } else {
+
+                viewer.deactivate();
+
+            }
+
+        });
 
     }
 
@@ -69,20 +81,5 @@ document.addEventListener('DOMContentLoaded', () => {
             updateActiveCard();
 
         });
-
-    // ------- activate  deactivate --------
-    viewers.forEach((viewer, index) => {
-
-        if (index === activeIndex) {
-
-            viewer.activate();
-
-        } else {
-
-            viewer.deactivate();
-
-        }
-
-    });
 
 });
