@@ -4,39 +4,67 @@ class Viewer360 {
     constructor(element) {
 
         // ---------- root ----------
-        this.viewer360= element.querySelector('.viewer-360');
         this.element = element;
 
         // ---------- data ----------
-        this.folder = this.viewer360.dataset.folder;
-        this.totalFrames = parseInt(this.viewer360.dataset.frames);
+        this.folder =
+            element.dataset.folder;
+
+        this.totalFrames =
+            parseInt(
+                element.dataset.frames
+            );
 
         // ---------- canvas ----------
-        this.canvas = element.querySelector('.viewer-canvas');
-        this.ctx = this.canvas.getContext('2d');
+        this.canvas =
+            element.querySelector(
+                '.viewer-canvas'
+            );
+
+        this.ctx =
+            this.canvas.getContext('2d');
 
         // ---------- state ----------
         this.images = [];
+
         this.currentFrame = 0;
 
-            this.isDragging = false;
-            this.lastX = 0;
-            this.velocity = 0;
+        this.isDragging = false;
+
+        this.lastX = 0;
+
+        this.velocity = 0;
 
         // ---------- init ----------
         this.preloadImages();
 
-        window.addEventListener('resize', () => {
-            this.resizeCanvas();
-
-                this.initEvents();
-                this.inertia();
-        });
-
         this.resizeCanvas();
 
-            this.initEvents();
-            this.inertia();
+        this.initEvents();
+
+        this.inertia();
+
+        // ---------- resize ----------
+        window.addEventListener(
+            'resize',
+            () => {
+                this.resizeCanvas();
+            }
+        );
+
+    }
+
+    // ---------- activate ------------
+    activate() {
+        this.isActive = true;
+    }
+
+    // ---------- deactivate ------------
+    deactivate() {
+        this.isActive = false;
+
+        this.isDragging = false;
+        this.velocity = 0;
     }
 
     // ---------- reset ------------
@@ -73,11 +101,11 @@ class Viewer360 {
     // ---------- resize ----------
     resizeCanvas() {
 
-        if (this.viewer360.offsetParent === null) {
+        if (this.element.offsetParent === null) {
             return;
         }
 
-        const rect = this.viewer360.getBoundingClientRect();
+        const rect = this.element.getBoundingClientRect();
 
         this.canvas.width = rect.width;
         this.canvas.height = rect.height;
@@ -133,8 +161,8 @@ class Viewer360 {
 
             this.velocity = dx;
 
-            const framesPerWidth =
-                this.totalFrames / this.element.offsetWidth;
+            const framesPerWidth = 
+                this.totalFrames / this.element.clientWidth;
 
             const step = dx * framesPerWidth;
 
@@ -208,6 +236,15 @@ class Viewer360 {
         // ---------- inertia ----------
         inertia() {
 
+            if (!this.isActive) {
+
+                requestAnimationFrame(() => {
+                    this.inertia();
+                });
+
+                return;
+            }
+
             if (
                 !this.isDragging &&
                 Math.abs(this.velocity) > 0.3
@@ -236,5 +273,6 @@ class Viewer360 {
             });
 
         };
+    // ==================================================================
 
 };

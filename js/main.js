@@ -1,55 +1,44 @@
-// ---------- create viewers ----------
-// import { Viewer360 } from './viewer360.js';
-
-// document.addEventListener('DOMContentLoaded', () => {
-
-//     const viewers = document.querySelectorAll('.viewer-360');
-
-//     viewers.forEach((viewerElement) => {
-
-//         new Viewer360(viewerElement);
-
-//     });
-
-// });
-
-// ------------------------------------------------------------------------
-// ------------------------------------------------------------------------
 document.addEventListener('DOMContentLoaded', () => {
 
-    const viewerElements = document.querySelectorAll('.viewer-card');
+    // ---------- cards ----------
+    const cards =
+        document.querySelectorAll('.viewer-card');
+
+    // ---------- viewers ----------
+    const viewerElements =
+        document.querySelectorAll('.viewer-360');
+
     const viewers = [];
+
     let activeIndex = 0;
 
     // ---------- init viewers ----------
-    viewerElements.forEach((el) => {
-        viewers.push(new Viewer360(el));
+    viewerElements.forEach((element) => {
+
+        viewers.push(
+            new Viewer360(element)
+        );
+
     });
 
-    console.log('viewerElements ', viewerElements);
-    console.log('viewers ', viewers);
-    console.log('viewers[0].element= ', viewers[0].element);
-
     // ---------- update ----------
-    function updateActiveViewer() {
-        viewers.forEach((viewer, index) => {
+    function updateActiveCard() {
 
-            viewer.element.style.display =
+        cards.forEach((card, index) => {
+
+            card.style.display =
                 index === activeIndex
                     ? 'block'
                     : 'none';
 
-            console.log('viewer.element.style.display= ', viewer.element.style.display);
-
-            viewer.resetInteraction();
-
-            if (index === activeIndex) {
-                viewer.resizeCanvas();
-            }
         });
+
+        viewers[activeIndex]
+            .resizeCanvas();
+
     }
 
-    updateActiveViewer();
+    updateActiveCard();
 
     // ---------- prev ----------
     document
@@ -59,11 +48,11 @@ document.addEventListener('DOMContentLoaded', () => {
             activeIndex--;
 
             if (activeIndex < 0) {
-                activeIndex =
-                    viewers.length - 1;
+                activeIndex = cards.length - 1;
             }
 
-            updateActiveViewer();
+            updateActiveCard();
+
         });
 
     // ---------- next ----------
@@ -73,14 +62,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
             activeIndex++;
 
-            if (
-                activeIndex >= viewers.length
-            ) {
+            if (activeIndex >= cards.length) {
                 activeIndex = 0;
             }
 
-            updateActiveViewer();
+            updateActiveCard();
 
         });
+
+    // ------- activate  deactivate --------
+    viewers.forEach((viewer, index) => {
+
+        if (index === activeIndex) {
+
+            viewer.activate();
+
+        } else {
+
+            viewer.deactivate();
+
+        }
+
+    });
 
 });

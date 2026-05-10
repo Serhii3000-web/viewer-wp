@@ -1,148 +1,86 @@
-document.addEventListener('DOMContentLoaded', ()=>{
+// ---------- create viewers ----------
+// import { Viewer360 } from './viewer360.js';
 
-    const canvas = document.getElementById('viewerCanvas');
-    const container = canvas.parentElement;
-    const ctx = canvas.getContext('2d');
+// document.addEventListener('DOMContentLoaded', () => {
 
-    const totalFrames = 48;
-    const images = [];
+//     const viewers = document.querySelectorAll('.viewer-360');
 
-    const urlFolder='Abaddon the Despoiler';
+//     viewers.forEach((viewerElement) => {
 
-    let currentFrame = 0;
-    let isDragging = false;
-    let lastX = 0;
-    let velocity = 0;
+//         new Viewer360(viewerElement);
 
-    // ---------- загрузка с fallback JPG -> PNG ----------
-    function loadImage(index) {
-        const num = String(index + 1).padStart(2, '0');
+//     });
 
-        const img = new Image();
+// });
 
-        const jpgPath = `img/${urlFolder}/${num}.jpg`;
-        const pngPath = `img/${urlFolder}/png/${num}.png`;
+// ------------------------------------------------------------------------
+// ------------------------------------------------------------------------
+document.addEventListener('DOMContentLoaded', () => {
 
-        img.src = jpgPath;
+    const viewerElements = document.querySelectorAll('.viewer-card');
+    const viewers = [];
+    let activeIndex = 0;
 
-        img.onerror = () => {
-            img.src = pngPath;
-        };
-
-        return img;
-    }
-
-    // ---------- preload ----------
-    for (let i = 0; i < totalFrames; i++) {
-        const img = loadImage(i);
-        images.push(img);
-
-        img.onload = () => {
-            if (i === 0) draw();
-        };
-    }
-
-    // ---------- resize canvas ----------
-    function resizeCanvas() {
-        const rect = container.getBoundingClientRect();
-
-        canvas.width = rect.width;
-        canvas.height = rect.height;
-
-        draw();
-    }
-
-    window.addEventListener('resize', resizeCanvas);
-    resizeCanvas();
-
-    // ---------- draw ----------
-    function draw() {
-        const img = images[currentFrame];
-        if (!img || !img.complete) return;
-
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        const scale = Math.min(
-            canvas.width / img.width,
-            canvas.height / img.height
-        );
-
-        const w = img.width * scale;
-        const h = img.height * scale;
-
-        const x = (canvas.width - w) / 2;
-        const y = (canvas.height - h) / 2;
-
-        ctx.drawImage(img, x, y, w, h);
-    }
-
-    // ---------- loop ----------
-    function show(frame) {
-        currentFrame = (frame + totalFrames) % totalFrames;
-        draw();
-    }
-
-    // ---------- движение ----------
-    function move(clientX) {
-        const dx = clientX - lastX;
-        velocity = dx;
-
-        const framesPerWidth = totalFrames / container.offsetWidth;
-        const step = dx * framesPerWidth;
-
-        if (Math.abs(step) >= 1) {
-            show(currentFrame + Math.floor(step));
-            lastX = clientX;
-        }
-    }
-
-    // ---------- mouse ----------
-    canvas.addEventListener('mousedown', (e) => {
-        isDragging = true;
-        lastX = e.clientX;
+    // ---------- init viewers ----------
+    viewerElements.forEach((el) => {
+        viewers.push(new Viewer360(el));
     });
 
-    window.addEventListener('mouseup', () => {
-        isDragging = false;
-    });
+    console.log('viewerElements ', viewerElements);
+    console.log('viewers ', viewers);
+    console.log('viewers[0].element= ', viewers[0].element);
 
-    // ---------- touch ----------
-    canvas.addEventListener('touchstart', (e) => {
-        isDragging = true;
-        lastX = e.touches[0].clientX;
-    });
+    // ---------- update ----------
+    function updateActiveViewer() {
+        viewers.forEach((viewer, index) => {
 
-    window.addEventListener('touchend', () => {
-        isDragging = false;
-    });
+            viewer.element.style.display =
+                index === activeIndex
+                    ? 'block'
+                    : 'none';
 
-    canvas.addEventListener('touchmove', (e) => {
-        if (!isDragging) return;
-        move(e.touches[0].clientX);
-    });
+            console.log('viewer.element.style.display= ', viewer.element.style.display);
 
-    // ---------- mouse move ----------
-    window.addEventListener('mousemove', (e) => {
-        if (!isDragging) return;
-        move(e.clientX);
-    });
+            viewer.resetInteraction();
 
-    // ---------- inertia ----------
-    function inertia() {
-        if (!isDragging && Math.abs(velocity) > 0.3) {
-            velocity *= 0.95;
-
-            const framesPerWidth = totalFrames / container.offsetWidth;
-            const step = velocity * framesPerWidth;
-
-            if (Math.abs(step) >= 1) {
-                show(currentFrame + Math.floor(step));
+            if (index === activeIndex) {
+                viewer.resizeCanvas();
             }
-        }
-
-        requestAnimationFrame(inertia);
+        });
     }
 
-    inertia();
+    updateActiveViewer();
+
+    // ---------- prev ----------
+    document
+        .getElementById('prevBtn')
+        .addEventListener('click', () => {
+
+            activeIndex--;
+
+            if (activeIndex < 0) {
+                activeIndex =
+                    viewers.length - 1;
+            }
+
+            updateActiveViewer();
+        });
+
+    // ---------- next ----------
+    document
+        .getElementById('nextBtn')
+        .addEventListener('click', () => {
+
+            activeIndex++;
+
+            if (
+                activeIndex >= viewers.length
+            ) {
+                activeIndex = 0;
+            }
+
+            updateActiveViewer();
+
+        });
 
 });
