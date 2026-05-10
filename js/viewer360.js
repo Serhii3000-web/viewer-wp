@@ -38,6 +38,14 @@ class Viewer360 {
             this.inertia();
     }
 
+    // -----------------------------
+    resetInteraction() {
+
+        this.isDragging = false;
+        this.velocity = 0;
+
+    }
+
     // ---------- preload ----------
     preloadImages() {
 
@@ -65,6 +73,10 @@ class Viewer360 {
 
     // ---------- resize ----------
     resizeCanvas() {
+
+        if (this.element.offsetParent === null) {
+            return;
+        }
 
         const rect = this.element.getBoundingClientRect();
 
