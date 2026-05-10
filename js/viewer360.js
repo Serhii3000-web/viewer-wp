@@ -4,12 +4,12 @@ class Viewer360 {
     constructor(element) {
 
         // ---------- root ----------
-        this.objElement = element.querySelector('.viewer-360');
+        this.viewer360= element.querySelector('.viewer-360');
         this.element = element;
 
         // ---------- data ----------
-        this.folder = this.objElement.dataset.folder;
-        this.totalFrames = parseInt(this.objElement.dataset.frames);
+        this.folder = this.viewer360.dataset.folder;
+        this.totalFrames = parseInt(this.viewer360.dataset.frames);
 
         // ---------- canvas ----------
         this.canvas = element.querySelector('.viewer-canvas');
@@ -39,12 +39,10 @@ class Viewer360 {
             this.inertia();
     }
 
-    // -----------------------------
+    // ---------- reset ------------
     resetInteraction() {
-
         this.isDragging = false;
         this.velocity = 0;
-
     }
 
     // ---------- preload ----------
@@ -75,11 +73,11 @@ class Viewer360 {
     // ---------- resize ----------
     resizeCanvas() {
 
-        if (this.objElement.offsetParent === null) {
+        if (this.viewer360.offsetParent === null) {
             return;
         }
 
-        const rect = this.objElement.getBoundingClientRect();
+        const rect = this.viewer360.getBoundingClientRect();
 
         this.canvas.width = rect.width;
         this.canvas.height = rect.height;

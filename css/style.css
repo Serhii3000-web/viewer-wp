@@ -1,4 +1,34 @@
+/* USER VARIABLES SECTION */
+
+:root {
+	--accent: #eb2fc5;
+  --titel: #e10e0e;
+	--text: #efeb10;
+	--regular-text: 16px;
+	--lineheight: 1.65;
+	--userfont: roboto-st, sans-serif;
+	--systemfont: -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+	--padding: 100px; /* --padding: 120px; */
+	--transition: cubic-bezier(.2, 0, 0, 1);/* --transition: cubic-bezier(.4, 0, 0, 1); */
+}
+
+/* FONTS LOAD SECTION */
+
+@font-face { src: url("../fonts/roboto-regular-webfont.woff2") format("woff2"); font-family: "roboto-st"; font-weight: 400; font-style: normal; }
+@font-face { src: url("../fonts/roboto-italic-webfont.woff2") format("woff2"); font-family: "roboto-st"; font-weight: 400; font-style: italic; }
+@font-face { src: url("../fonts/roboto-bold-webfont.woff2") format("woff2"); font-family: "roboto-st"; font-weight: 700; font-style: normal; }
+@font-face { src: url("../fonts/roboto-bolditalic-webfont.woff2") format("woff2"); font-family: "roboto-st"; font-weight: 700; font-style: italic; }
+@font-face { src: url("../fonts/assassin.woff2") format("woff2"); font-family: "assassin-st"; font-weight: 700; font-style: italic; }
+
+
 body{
+  font-family: var(--userfont);
+	font-size: var(--regular-text);
+	line-height: var(--lineheight);
+	color: var(--text);
+	min-width: 320px;
+	position: relative;
+	overflow-x: hidden;
   /* background-color: #232f33; */
   background: radial-gradient(circle at center, #2f3f44 0%, #1b2427 100%);
 }
@@ -9,7 +39,23 @@ body{
 }
 
 .viewer-card {
-    margin-bottom: 40px;
+  margin: 0 auto;
+  margin-bottom: 40px;
+  border: 1px solid rebeccapurple;
+}
+
+.viewer-card--img-title,
+.viewer-card--img-info{
+  margin: 0 auto;
+  text-align: center;
+  font-family: assassin-st, sans-serif;
+  font-size: 32px;
+  color: var(--titel)
+	/* text-shadow: rgb(58 78 94) 0 0 10px; */
+}
+
+.viewer-card--img-info{
+  color: var(--text)
 }
 
 .viewer-360 {
