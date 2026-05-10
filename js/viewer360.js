@@ -4,11 +4,12 @@ class Viewer360 {
     constructor(element) {
 
         // ---------- root ----------
+        this.objElement = element.querySelector('.viewer-360');
         this.element = element;
 
         // ---------- data ----------
-        this.folder = element.dataset.folder;
-        this.totalFrames = parseInt(element.dataset.frames);
+        this.folder = this.objElement.dataset.folder;
+        this.totalFrames = parseInt(this.objElement.dataset.frames);
 
         // ---------- canvas ----------
         this.canvas = element.querySelector('.viewer-canvas');
@@ -74,11 +75,11 @@ class Viewer360 {
     // ---------- resize ----------
     resizeCanvas() {
 
-        if (this.element.offsetParent === null) {
+        if (this.objElement.offsetParent === null) {
             return;
         }
 
-        const rect = this.element.getBoundingClientRect();
+        const rect = this.objElement.getBoundingClientRect();
 
         this.canvas.width = rect.width;
         this.canvas.height = rect.height;
