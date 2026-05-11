@@ -26,8 +26,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
         cards.forEach((card, index) => {
 
-            const offset =
+            let offset =
                 index - activeIndex;
+
+            const total =
+                cards.length;
+
+            // ---------- loop right ----------
+            if (offset > total / 2) {
+                offset -= total;
+            }
+
+            // ---------- loop left ----------
+            if (offset < -total / 2) {
+                offset += total;
+            }
 
             // ---------- active ----------
             if (offset === 0) {
