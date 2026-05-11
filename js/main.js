@@ -26,23 +26,54 @@ document.addEventListener('DOMContentLoaded', () => {
 
         cards.forEach((card, index) => {
 
-            card.style.display =
-                index === activeIndex
-                    ? 'block'
-                    : 'none';
+            const offset =
+                index - activeIndex;
 
-        });
+            // ---------- active ----------
+            if (offset === 0) {
 
-        viewers.forEach((viewer, index) => {
+                card.style.transform =
+                    'translate(-50%, -50%) scale(1)';
 
-            if (index === activeIndex) {
+                card.style.opacity = '1';
 
-                viewer.activate();
-                viewer.resizeCanvas();
+                card.style.zIndex = '10';
 
-            } else {
+            }
 
-                viewer.deactivate();
+            // ---------- left ----------
+            else if (offset === -1) {
+
+                card.style.transform =
+                    'translate(-120%, -50%) scale(0.7)';
+
+                card.style.opacity = '0.5';
+
+                card.style.zIndex = '5';
+
+            }
+
+            // ---------- right ----------
+            else if (offset === 1) {
+
+                card.style.transform =
+                    'translate(20%, -50%) scale(0.7)';
+
+                card.style.opacity = '0.5';
+
+                card.style.zIndex = '5';
+
+            }
+
+            // ---------- hidden ----------
+            else {
+
+                card.style.transform =
+                    'translate(-50%, -50%) scale(0.3)';
+
+                card.style.opacity = '0';
+
+                card.style.zIndex = '1';
 
             }
 

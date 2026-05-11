@@ -98,14 +98,36 @@ class Viewer360 {
             return;
         }
 
-        const rect = this.element.getBoundingClientRect();
+        const rect =
+            this.element.getBoundingClientRect();
 
-        this.canvas.width = rect.width;
-        this.canvas.height = rect.height;
+        const dpr =
+            window.devicePixelRatio || 1;
+
+        this.canvas.width =
+            rect.width * dpr;
+
+        this.canvas.height =
+            rect.height * dpr;
+
+        this.canvas.style.width =
+            rect.width + 'px';
+
+        this.canvas.style.height =
+            rect.height + 'px';
+
+        this.ctx.setTransform(
+            dpr,
+            0,
+            0,
+            dpr,
+            0,
+            0
+        );
 
         this.draw();
 
-    };
+    }
 
     // ---------- draw ----------
     draw() {
@@ -117,20 +139,23 @@ class Viewer360 {
         this.ctx.clearRect(
             0,
             0,
-            this.canvas.width,
-            this.canvas.height
+            this.element.clientWidth,
+            this.element.clientHeight
         );
 
         const scale = Math.min(
-            this.canvas.width / img.width,
-            this.canvas.height / img.height
+            this.element.clientWidth / img.width,
+            this.element.clientHeight / img.height
         );
 
         const w = img.width * scale;
         const h = img.height * scale;
 
-        const x = (this.canvas.width - w) / 2;
-        const y = (this.canvas.height - h) / 2;
+        const x =
+            (this.element.clientWidth - w) / 2;
+
+        const y =
+            (this.element.clientHeight - h) / 2;
 
         this.ctx.drawImage(img, x, y, w, h);
 
