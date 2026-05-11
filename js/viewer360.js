@@ -98,23 +98,26 @@ class Viewer360 {
             return;
         }
 
-        const rect =
-            this.element.getBoundingClientRect();
+        const width =
+            this.element.clientWidth;
+
+        const height =
+            this.element.clientHeight;
 
         const dpr =
             window.devicePixelRatio || 1;
 
         this.canvas.width =
-            rect.width * dpr;
+            width * dpr;
 
         this.canvas.height =
-            rect.height * dpr;
+            height * dpr;
 
         this.canvas.style.width =
-            rect.width + 'px';
+            width + 'px';
 
         this.canvas.style.height =
-            rect.height + 'px';
+            height + 'px';
 
         this.ctx.setTransform(
             dpr,
