@@ -35,6 +35,10 @@ class Viewer360 {
 
         this.velocity = 0;
 
+        this.isActive = true;
+
+        this.lastDpr = window.devicePixelRatio;
+
         // ---------- init ----------
         this.preloadImages();
 
@@ -44,14 +48,11 @@ class Viewer360 {
 
         this.inertia(); // $$$$$$$$$$$$$$$$$$$$$$$
 
-        // ---------- resize ----------
-        window.addEventListener(
-            'resize',
-            () => {
+        window.addEventListener('resize', () => {
+            requestAnimationFrame(() => {
                 this.resizeCanvas();
-            }
-        );
-
+            });
+        });
     }
 
     // ---------- activate ------------
@@ -75,55 +76,39 @@ class Viewer360 {
 
     // ---------- preload ----------
     preloadImages() {
+
         for (let i = 0; i < this.totalFrames; i++) {
+
             const img = new Image();
+
             const num = String(i + 1).padStart(2, '0');
 
             img.src = `./img/${this.folder}/${num}.png`;
 
-            this.images.push(img);
-
             img.onload = () => {
-                if (i === this.currentFrame) {
+
+                if (i === 0) {
                     this.draw();
                 }
+
             };
-        };
-    };
+
+            this.images.push(img);
+        }
+
+    }
 
     // ---------- resize ----------
     resizeCanvas() {
 
-        if (this.element.offsetParent === null) {
-            return;
-        }
-
         const rect =
             this.element.getBoundingClientRect();
 
-        const dpr =
-            window.devicePixelRatio || 1;
-
         this.canvas.width =
-            rect.width * dpr;
+            rect.width;
 
         this.canvas.height =
-            rect.height * dpr;
-
-        this.canvas.style.width =
-            rect.width + 'px';
-
-        this.canvas.style.height =
-            rect.height + 'px';
-
-        this.ctx.setTransform(
-            dpr,
-            0,
-            0,
-            dpr,
-            0,
-            0
-        );
+            rect.height;
 
         this.draw();
 
@@ -132,44 +117,64 @@ class Viewer360 {
     // ---------- draw ----------
     draw() {
 
-        const img = this.images[this.currentFrame];
+        const img =
+            this.images[this.currentFrame];
 
-        if (!img || !img.complete) return;
+        if (
+            !img ||
+            !img.complete ||
+            !img.naturalWidth
+        ) return;
+
+        const cw =
+            this.element.clientWidth;
+
+        const ch =
+            this.element.clientHeight;
 
         this.ctx.clearRect(
             0,
             0,
-            this.element.clientWidth,
-            this.element.clientHeight
+            cw,
+            ch
         );
+
+        // 🔥 фиксируем единый масштаб (НЕ зависящий от кадра)
+        const baseSize = 500; // или 600 — выбери один стандарт
 
         const scale = Math.min(
-            this.element.clientWidth / img.width,
-            this.element.clientHeight / img.height
+            cw / baseSize,
+            ch / baseSize
         );
 
-        const w = img.width * scale;
-        const h = img.height * scale;
+        const w = baseSize * scale;
+        const h = baseSize * scale;
 
-        const x =
-            (this.element.clientWidth - w) / 2;
+        const x = (cw - w) / 2;
+        const y = (ch - h) / 2;
 
-        const y =
-            (this.element.clientHeight - h) / 2;
-
-        this.ctx.drawImage(img, x, y, w, h);
-
-    };
+        this.ctx.drawImage(
+            img,
+            x,
+            y,
+            w,
+            h
+        );
+    }
 
     // ==================================================================
     // ---------- show ----------
     show(frame) {
-
         this.currentFrame =
             (frame + this.totalFrames) % this.totalFrames;
 
-        this.draw();
+        const img = this.images[this.currentFrame];
 
+        if (img && img.complete && img.naturalWidth) {
+            this.draw();
+        }
+
+        // console.log('frame:', this.currentFrame);
     };
 
     // ---------- move ----------
@@ -177,46 +182,48 @@ class Viewer360 {
 
         const dx = clientX - this.lastX;
 
-        this.velocity = dx;
+        this.lastX = clientX;
 
-        const framesPerWidth = 
+        const framesPerPixel =
             this.totalFrames / this.element.clientWidth;
 
-        const step = dx * framesPerWidth;
+        this.accumulatedX += dx;
 
-        if (Math.abs(step) >= 1) {
+        const step =
+            this.accumulatedX * framesPerPixel;
+
+        const frameChange =
+            Math.trunc(step);
+
+        if (frameChange !== 0) {
 
             this.show(
-                this.currentFrame + Math.floor(step)
+                this.currentFrame + frameChange
             );
 
-            this.lastX = clientX;
+            this.accumulatedX -= frameChange / framesPerPixel;
+        }
 
-        };
-
-    };
+        this.velocity = dx;
+    }
 
     // ---------- events ----------
     initEvents() {
 
-        // mouse down
-        this.canvas.addEventListener('mousedown', (e) => {
+        this.canvas.addEventListener('pointerdown', (e) => {
 
             this.isDragging = true;
-
             this.lastX = e.clientX;
 
         });
 
-        // mouse up
-        window.addEventListener('mouseup', () => {
+        window.addEventListener('pointerup', () => {
 
             this.isDragging = false;
 
         });
 
-        // mouse move
-        window.addEventListener('mousemove', (e) => {
+        window.addEventListener('pointermove', (e) => {
 
             if (!this.isDragging) return;
 
@@ -224,32 +231,7 @@ class Viewer360 {
 
         });
 
-        // touch start
-        this.canvas.addEventListener('touchstart', (e) => {
-
-            this.isDragging = true;
-
-            this.lastX = e.touches[0].clientX;
-
-        });
-
-        // touch end
-        window.addEventListener('touchend', () => {
-
-            this.isDragging = false;
-
-        });
-
-        // touch move
-        this.canvas.addEventListener('touchmove', (e) => {
-
-            if (!this.isDragging) return;
-
-            this.move(e.touches[0].clientX);
-
-        });
-
-    };
+    }
 
     // ---------- inertia ----------
     inertia() {
@@ -263,7 +245,7 @@ class Viewer360 {
             return;
         }
 
-        if (
+       if (
             !this.isDragging &&
             Math.abs(this.velocity) > 0.3
         ) {
@@ -276,19 +258,17 @@ class Viewer360 {
             const step =
                 this.velocity * framesPerWidth;
 
-            if (Math.abs(step) >= 1) {
-
-                this.show(
-                    this.currentFrame + Math.floor(step)
-                );
-
-            };
-
-        };
+            this.show(
+                this.currentFrame + step
+            );
+        }
 
         requestAnimationFrame(() => {
             this.inertia();
         });
+
+        // this.currentFrame += Math.round(step);
+        // this.show(this.currentFrame);
 
     };
 
