@@ -14,11 +14,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ---------- init viewers ----------
     viewerElements.forEach((element) => {
-
         viewers.push(
             new Viewer360(element)
         );
-
     });
 
     // ---------- update ----------
@@ -32,65 +30,75 @@ document.addEventListener('DOMContentLoaded', () => {
             const total =
                 cards.length;
 
-            // ---------- loop right ----------
+            // ---------- circular ----------
             if (offset > total / 2) {
                 offset -= total;
             }
 
-            // ---------- loop left ----------
             if (offset < -total / 2) {
                 offset += total;
             }
 
-            // ---------- active ----------
-            if (offset === 0) {
-
-                card.style.transform =
-                    'translate(-50%, -50%) scale(1)';
-
-                card.style.opacity = '1';
-
-                card.style.zIndex = '10';
-
-            }
+            // ---------- state ----------
+            let x = 0;
+            let scale = 1;
+            let opacity = 1;
+            let zIndex = 10;
+            let rotateY = 0;
+            let z = 0;
 
             // ---------- left ----------
-            else if (offset === -1) {
+            if (offset === -1) {
 
-                card.style.transform =
-                    'translate(-120%, -50%) scale(0.7)';
-
-                card.style.opacity = '0.5';
-
-                card.style.zIndex = '5';
+                x = -450;
+                z = -300;
+                scale = 0.7;
+                opacity = 0.6;
+                zIndex = 5;
+                rotateY = 55;
 
             }
 
             // ---------- right ----------
             else if (offset === 1) {
 
-                card.style.transform =
-                    'translate(20%, -50%) scale(0.7)';
-
-                card.style.opacity = '0.5';
-
-                card.style.zIndex = '5';
+                x = 450;
+                z = -300;
+                scale = 0.7;
+                opacity = 0.6;
+                zIndex = 5;
+                rotateY = -55;
 
             }
 
             // ---------- hidden ----------
-            else {
+            else if (offset !== 0) {
 
-                card.style.transform =
-                    'translate(-50%, -50%) scale(0.3)';
-
-                card.style.opacity = '0';
-
-                card.style.zIndex = '1';
+                opacity = 0;
+                zIndex = 1;
 
             }
 
+            // ---------- apply ----------
+            card.style.transform =
+                `
+                translate(-50%, -50%)
+                translateX(${x}px)
+                translateZ(${z}px)
+                rotateY(${rotateY}deg)
+                scale(${scale})
+                `;
+
+            card.style.opacity =
+                opacity;
+
+            card.style.zIndex =
+                zIndex;
+
         });
+
+        viewers[activeIndex]
+            .resizeCanvas();
 
     }
 
