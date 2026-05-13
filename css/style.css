@@ -5,6 +5,9 @@
   --titel: #e10e0e;
 	--text: #efeb10;
 	--regular-text: 16px;
+  --font-img-title: 48px;
+  --font-img-info: 36px;
+  --imgleinheight: 1.1;
 	--lineheight: 1.65;
 	--userfont: roboto-st, sans-serif;
 	--systemfont: -apple-system, BlinkMacSystemFont, Arial, sans-serif;
@@ -33,32 +36,34 @@ body{
 
 .wrapper{
   margin: 0 auto;
-  max-width: 1200px;
+  max-width: 1366px;
   background: radial-gradient(circle at center, #2f3f44 0%, #1b2427 100%);
 }
 
 .carousel {
-    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 
+    position: relative;
     width: 100%;
     height: 750px;
-
     overflow: hidden;
-
     perspective: 1200px;
 }
 
 .carousel-track {
-    position: relative;
+    flex: 1;
 
+    position: relative;
     width: 100%;
     height: 100%;
-
     transform-style: preserve-3d;
 }
 
 .viewer-card {
-    border: 1px solid #e10e0e;
+    border: 2px solid #e10e0e; /*!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
 
     position: absolute;
     top: 50%;
@@ -70,24 +75,37 @@ body{
         translate(-50%, -50%);
 
     transition:
-        transform 0.5s ease,
-        opacity 0.5s ease;
+      transform 0.7s cubic-bezier(.2,.8,.2,1),
+      opacity 0.4s ease;
 
     transform-origin: center center;
+
+    z-index: 20;
 }
 
 .viewer-card--img-title,
 .viewer-card--img-info {
+  border: 3px solid yellow;
+
   margin: 0 auto;
+  max-width: 100%;
+  padding: 10px 30px;
   text-align: center;
   font-family: assassin-st, sans-serif;
-  font-size: 32px;
+  font-size: var(--font-img-title);
+  line-height: calc(var(--font-img-title) * var(--imgleinheight));
   color: var(--titel);
-	/* text-shadow: rgb(58 78 94) 0 0 10px; */
+	
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  word-spacing: normal;
 }
 
 .viewer-card--img-info {
+  /* text-shadow: rgb(58 78 94) 0 0 10px; */
   color: var(--text);
+  font-size: var(--font-img-info);
 }
 
 .viewer-360 {
@@ -104,6 +122,27 @@ body{
   display: block;
 }
 
+/* =============== Carousel-controls Button ================== */
+.prevBtn-Below,
+.nextBtn-Below {
+    position: absolute;
+    top: 50%;
+
+    padding: 10px 20px;
+    cursor: pointer;
+    opacity: 0.6;
+
+    transform: translateY(-50%);
+}
+
+.prevBtn-Below {
+    left: 20px;
+}
+
+.nextBtn-Below {
+    right: 20px;
+}
+
 .carousel-controls {
     display: flex;
     justify-content: center;
@@ -111,25 +150,11 @@ body{
     margin-top: 20px;
 }
 
-button {
-    padding: 10px 20px;
+.carousel-controls button.prevBtn-Bottom,
+.carousel-controls button.nextBtn-Bottom {
+    padding: 12px 24px;
+    font-size: 24px;
     cursor: pointer;
 }
 
-#prevBtn,
-#nextBtn {
-    position: absolute;
-    top: 50%;
-
-    transform: translateY(-50%);
-
-    z-index: 100;
-}
-
-#prevBtn {
-    left: 20px;
-}
-
-#nextBtn {
-    right: 20px;
-}
+/* ======================================================= */

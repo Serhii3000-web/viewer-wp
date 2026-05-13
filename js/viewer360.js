@@ -51,7 +51,6 @@ class Viewer360 {
                 this.resizeCanvas();
             }
         );
-
     }
 
     // ---------- activate ------------
@@ -62,7 +61,6 @@ class Viewer360 {
     // ---------- deactivate ------------
     deactivate() {
         this.isActive = false;
-
         this.isDragging = false;
         this.velocity = 0;
     }
@@ -172,7 +170,6 @@ class Viewer360 {
             (frame + this.totalFrames) % this.totalFrames;
 
         this.draw();
-
     };
 
     // ---------- move ----------
@@ -194,9 +191,7 @@ class Viewer360 {
             );
 
             this.lastX = clientX;
-
         };
-
     };
 
     // ---------- events ----------
@@ -204,27 +199,19 @@ class Viewer360 {
 
         // mouse down
         this.canvas.addEventListener('mousedown', (e) => {
-
             this.isDragging = true;
-
             this.lastX = e.clientX;
-
         });
 
         // mouse up
         window.addEventListener('mouseup', () => {
-
             this.isDragging = false;
-
         });
 
         // mouse move
         window.addEventListener('mousemove', (e) => {
-
             if (!this.isDragging) return;
-
             this.move(e.clientX);
-
         });
 
         // touch start
@@ -238,31 +225,23 @@ class Viewer360 {
 
         // touch end
         window.addEventListener('touchend', () => {
-
             this.isDragging = false;
-
         });
 
         // touch move
         this.canvas.addEventListener('touchmove', (e) => {
-
             if (!this.isDragging) return;
-
             this.move(e.touches[0].clientX);
-
         });
 
     };
 
     // ---------- inertia ----------
     inertia() {
-
         if (!this.isActive) {
-
             requestAnimationFrame(() => {
                 this.inertia();
             });
-
             return;
         }
 
