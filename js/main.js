@@ -1,17 +1,12 @@
 document.addEventListener('DOMContentLoaded', () => {
 
     // ---------- cards ----------
-    const cards =
-        document.querySelectorAll('.viewer-card');
+    const cards = document.querySelectorAll('.viewer-card');
 
     // ---------- viewers ----------
-    const viewerElements =
-        document.querySelectorAll('.viewer-360');
-
+    const viewerElements = document.querySelectorAll('.viewer-360');
     const viewers = [];
-
     let activeIndex = 0;
-
     let imgInfoLength = 35;
 
     // ---------- init viewers ----------
@@ -25,31 +20,21 @@ document.addEventListener('DOMContentLoaded', () => {
     function updateActiveCard(imgInfoLength = 35) {
 
         cards.forEach((card, index) => {
+            const imgInfoElement = card.querySelector('.viewer-card__info');
+            
+            if (!imgInfoElement.dataset.fullText) {
+                imgInfoElement.dataset.fullText = imgInfoElement.textContent;
+            }
 
-        // iewer-card--img-info
-        const imgInfoElement =
-            card.querySelector('.viewer-card--img-info');
-        
-        if (!imgInfoElement.dataset.fullText) {
-            imgInfoElement.dataset.fullText =
-                imgInfoElement.textContent;
-        }
+            const imgInfoText = imgInfoElement.dataset.fullText;
+            const trimmed = imgInfoText.length > imgInfoLength 
+                            ? imgInfoText.slice(0, imgInfoLength )
+                            : imgInfoText;
 
-        const imgInfoText =
-            imgInfoElement.dataset.fullText;
+            imgInfoElement.textContent = trimmed;
 
-        const trimmed =
-            imgInfoText.length > imgInfoLength 
-                ? imgInfoText.slice(0, imgInfoLength )
-                : imgInfoText;
-
-        imgInfoElement.textContent = trimmed;
-
-            let offset =
-                index - activeIndex;
-
-            const total =
-                cards.length;
+            let offset = index - activeIndex;
+            const total = cards.length;
 
             // ---------- circular ----------
             if (offset > total / 2) {
@@ -104,15 +89,27 @@ document.addEventListener('DOMContentLoaded', () => {
                 scale(${scale})
                 `;
 
-            card.style.opacity =
-                opacity;
-
-            card.style.zIndex =
-                zIndex;
+            card.style.opacity = opacity;
+            card.style.zIndex = zIndex;
         });
 
-        viewers[activeIndex]
-            .resizeCanvas();
+        // ---------- activate visible viewers ----------
+        viewers.forEach((viewer, index) => {
+            let offset = Math.abs(index - activeIndex);
+            
+            // circular
+            if (offset > cards.length / 2) {
+                offset = cards.length - offset;
+            }
+
+            if (offset <= 1) {
+                viewer.activate();
+            } else {
+                viewer.deactivate();
+            }
+        });
+
+        viewers[activeIndex].resizeCanvas();
     }
 
     updateActiveCard(imgInfoLength);
@@ -121,7 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document
         .querySelector('.prevBtn-Below')
         .addEventListener('click', () => {
-
+            
             activeIndex--;
 
             if (activeIndex < 0) {
@@ -148,7 +145,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ---------- prev Btn-Bottom ----------
     document
-        .querySelector('.prevBtn-Bottom')
+        .querySelector('.carousel__button-bottom--prevBtn')
         .addEventListener('click', () => {
 
             activeIndex--;
@@ -162,7 +159,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ---------- next Btn-Bottom----------
     document
-        .querySelector('.nextBtn-Bottom')
+        .querySelector('.carousel__button-bottom--nextBtn')
         .addEventListener('click', () => {
             
             activeIndex++;
@@ -174,36 +171,25 @@ document.addEventListener('DOMContentLoaded', () => {
         updateActiveCard(imgInfoLength);
     });
 
-
-
-
     // ================ Keyboard ====================
     window.addEventListener('keydown', (e) => {
-
         // left
         if (e.key === 'ArrowLeft') {
-
             activeIndex--;
-
             if (activeIndex < 0) {
                 activeIndex = cards.length - 1;
             }
-
             updateActiveCard(imgInfoLength);
         }
 
         // right
         if (e.key === 'ArrowRight') {
-
             activeIndex++;
-
             if (activeIndex >= cards.length) {
                 activeIndex = 0;
             }
-
             updateActiveCard(imgInfoLength);
         }
     });
     // =================================================
-
 });
