@@ -69,21 +69,21 @@ class Viewer360 {
     // ---------- preload ----------
     preloadImages() {
         for (let i = 0; i < this.totalFrames; i++) {
-            const img = new Image();
+            const imagesWH = new Image();
             const num = String(i + 1).padStart(2, '0');
-            img.src = `./img/${this.folder}/${num}.png`;
-            this.images[i] = img;
+            imagesWH.src = `./imagesWH/${this.folder}/${num}.png`;
+            this.images[i] = imagesWH;
             this.loaded[i] = false;
 
-            img.onload = () => {
+            imagesWH.onload = () => {
                 this.loaded[i] = true;
                 if (i === this.currentFrame) {
                     this.draw();
                 }
             };
 
-            img.onerror = () => {
-                console.warn(`Image not loaded: ${img.src}`);
+            imagesWH.onerror = () => {
+                console.warn(`Image not loaded: ${imagesWH.src}`);
             };
         }
     }
@@ -109,24 +109,24 @@ class Viewer360 {
 
     // ---------- draw ----------
     draw() {
-        const img = this.images[this.currentFrame];
+        const imagesWH = this.images[this.currentFrame];
 
-        if (!img || !this.loaded[this.currentFrame]) {
+        if (!imagesWH || !this.loaded[this.currentFrame]) {
             return;
         }
 
         this.ctx.clearRect(0, 0, this.element.clientWidth, this.element.clientHeight);
 
         const scale = Math.min(
-            this.element.clientWidth / img.width,
-            this.element.clientHeight / img.height
+            this.element.clientWidth / imagesWH.width,
+            this.element.clientHeight / imagesWH.height
         );
-        const w = img.width * scale;
-        const h = img.height * scale;
+        const w = imagesWH.width * scale;
+        const h = imagesWH.height * scale;
         const x = (this.element.clientWidth - w) / 2;
         const y = (this.element.clientHeight - h) / 2;
 
-        this.ctx.drawImage(img, x, y, w, h);
+        this.ctx.drawImage(imagesWH, x, y, w, h);
     };
 
     // ==================================================================

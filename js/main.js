@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const viewerElements = document.querySelectorAll('.viewer-360');
     const viewers = [];
     let activeIndex = 0;
-    let imgInfoLength = 35;
+    let cardInfoLength = 35;
 
     // ---------- init viewers ----------
     viewerElements.forEach((element) => {
@@ -17,21 +17,25 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // ---------- update ----------
-    function updateActiveCard(imgInfoLength = 35) {
+    function updateActiveCard(cardInfoLength = 35) {
 
         cards.forEach((card, index) => {
-            const imgInfoElement = card.querySelector('.viewer-card__info');
+            const cardInfoElement  = card.querySelector('.viewer-card__info');
+            const cardTitleElement  = card.querySelector('.viewer-card__title');
+
+            const cardLeftElement  = card.querySelector('.viewer-card__left');
+            const cardRightElement  = card.querySelector('.viewer-card__right');
             
-            if (!imgInfoElement.dataset.fullText) {
-                imgInfoElement.dataset.fullText = imgInfoElement.textContent;
+            if (!cardInfoElement .dataset.fullText) {
+                cardInfoElement .dataset.fullText = cardInfoElement .textContent;
             }
 
-            const imgInfoText = imgInfoElement.dataset.fullText;
-            const trimmed = imgInfoText.length > imgInfoLength 
-                            ? imgInfoText.slice(0, imgInfoLength )
-                            : imgInfoText;
+            const cardInfoText = cardInfoElement .dataset.fullText;
+            const trimmed = cardInfoText.length > cardInfoLength 
+                            ? cardInfoText.slice(0, cardInfoLength )
+                            : cardInfoText;
 
-            imgInfoElement.textContent = trimmed;
+            cardInfoElement .textContent = trimmed;
 
             let offset = index - activeIndex;
             const total = cards.length;
@@ -80,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             // ---------- apply ----------
-            card.style.transform =
+            const styleTransform =
                 `
                 translate(-50%, -50%)
                 translateX(${x}px)
@@ -88,6 +92,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 rotateY(${rotateY}deg)
                 scale(${scale})
                 `;
+
+            card.style.transform = styleTransform;
+            // cardLeftElement.style.transform = styleTransform;
+            // cardRightElement.style.transform = styleTransform;
 
             card.style.opacity = opacity;
             card.style.zIndex = zIndex;
@@ -107,16 +115,18 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 viewer.deactivate();
             }
+
+console.log('cards.length = ', cards.length);
         });
 
         viewers[activeIndex].resizeCanvas();
     }
 
-    updateActiveCard(imgInfoLength);
+    updateActiveCard(cardInfoLength);
 
     // ---------- prev Btn-Below ----------
     document
-        .querySelector('.prevBtn-Below')
+        .querySelector('.carousel__button-below--prevBtn')
         .addEventListener('click', () => {
             
             activeIndex--;
@@ -125,12 +135,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 activeIndex = cards.length - 1;
             }
 
-        updateActiveCard(imgInfoLength);
+        updateActiveCard(cardInfoLength);
     });
 
     // ---------- next Btn-Below ----------
     document
-        .querySelector('.nextBtn-Below')
+        .querySelector('.carousel__button-below--nextBtn')
         .addEventListener('click', () => {
             
             activeIndex++;
@@ -139,7 +149,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 activeIndex = 0;
             }
 
-        updateActiveCard(imgInfoLength);
+        updateActiveCard(cardInfoLength);
     });
 
 
@@ -154,7 +164,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 activeIndex = cards.length - 1;
             }
 
-        updateActiveCard(imgInfoLength);
+        updateActiveCard(cardInfoLength);
     });
 
     // ---------- next Btn-Bottom----------
@@ -168,7 +178,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 activeIndex = 0;
             }
 
-        updateActiveCard(imgInfoLength);
+        updateActiveCard(cardInfoLength);
     });
 
     // ================ Keyboard ====================
@@ -179,7 +189,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (activeIndex < 0) {
                 activeIndex = cards.length - 1;
             }
-            updateActiveCard(imgInfoLength);
+            updateActiveCard(cardInfoLength);
         }
 
         // right
@@ -188,7 +198,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (activeIndex >= cards.length) {
                 activeIndex = 0;
             }
-            updateActiveCard(imgInfoLength);
+            updateActiveCard(cardInfoLength);
         }
     });
     // =================================================

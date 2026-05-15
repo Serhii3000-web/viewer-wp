@@ -5,10 +5,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="icon" href="img/favicon.png">
         <link rel="stylesheet" href="./css/style.css">
-        <title>Veiwer WP</title>
+        <title>Slider WH</title>
     </head>
     <body>
-
 
         <!-- внешний сайт -->
         <div class="page-layout">
@@ -25,6 +24,7 @@
                         <div class="carousel__track">
 
                             <div class="viewer-card">
+                                <div class="viewer-card__panel viewer-card__panel--left"></div>
                                 <h2 class="viewer-card__title">Chaos Space Marine</h2>
 
                                 <div class="viewer-360" data-folder="Abaddon the Despoiler" data-frames="48">
@@ -32,19 +32,22 @@
                                 </div>
 
                                 <h4 class="viewer-card__info">Abaddon the Despoiler</h4>
+                                <div class="viewer-card__panel viewer-card__panel--right"></div>
                             </div>
 
                             <div class="viewer-card">
+                                <div class="viewer-card__panel viewer-card__panel--left"></div>
                                 <h2 class="viewer-card__title">Chaos Space Marine</h2>
 
                                 <div class="viewer-360" data-folder="Sorcerer Lord in Terminator Armour" data-frames="12">
                                     <canvas class="viewer-360__canvas"></canvas>
                                 </div>
 
-                                <h4 class="viewer-card__info">Sorcerer Lord in Terminator Armour 23456789</h4>
+                                <h4 class="viewer-card__info">Sorcerer Lord in Terminator Armour</h4>
+                                <div class="viewer-card__panel viewer-card__panel--right"></div>
                             </div>
 
-                            <div class="viewer-card">
+                            <!-- <div class="viewer-card">
                                 <h2 class="viewer-card__title">Chaos Space Marine</h2>
 
                                 <div class="viewer-360" data-folder="Chosen" data-frames="12">
@@ -92,16 +95,16 @@
                                 </div>
 
                                 <h4 class="viewer-card__info">Obliterators</h4>
-                            </div>
+                            </div> -->
 
                         </div>
 
-                        <button class="prevBtn-Below">▶</button>
-                        <button class="nextBtn-Below">◀</button>
+                        <button class="carousel__button-below--prevBtn">▶</button>
+                        <button class="carousel__button-below--nextBtn">◀</button>
 
-                        <div class="carousel__buttons-bottom">
+                        <div class="carousel__button-bottom">
                             <button class="carousel__button-bottom--nextBtn">◀</button>
-                            <button class="prevBtn-Bottom carousel__button-bottom--prevBtn">▶</button>
+                            <button class="carousel__button-bottom--prevBtn">▶</button>
                         </div>
 
                     </div>
