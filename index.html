@@ -21,10 +21,15 @@
                     <!-- твоя сцена -->
                     <div class="carousel">
 
+                        <div class="carousel__panel carousel__panel--left"></div>
+                        <div class="carousel__panel carousel__panel--right"></div>
+
                         <div class="carousel__track">
 
                             <div class="viewer-card">
                                 <div class="viewer-card__panel viewer-card__panel--left"></div>
+                                <div class="viewer-card__panel viewer-card__panel--right"></div>
+
                                 <h2 class="viewer-card__title">Chaos Space Marine</h2>
 
                                 <div class="viewer-360" data-folder="Abaddon the Despoiler" data-frames="48">
@@ -32,11 +37,12 @@
                                 </div>
 
                                 <h4 class="viewer-card__info">Abaddon the Despoiler</h4>
-                                <div class="viewer-card__panel viewer-card__panel--right"></div>
                             </div>
 
                             <div class="viewer-card">
                                 <div class="viewer-card__panel viewer-card__panel--left"></div>
+                                <div class="viewer-card__panel viewer-card__panel--right"></div>
+
                                 <h2 class="viewer-card__title">Chaos Space Marine</h2>
 
                                 <div class="viewer-360" data-folder="Sorcerer Lord in Terminator Armour" data-frames="12">
@@ -44,10 +50,9 @@
                                 </div>
 
                                 <h4 class="viewer-card__info">Sorcerer Lord in Terminator Armour</h4>
-                                <div class="viewer-card__panel viewer-card__panel--right"></div>
                             </div>
 
-                            <!-- <div class="viewer-card">
+                            <div class="viewer-card">
                                 <h2 class="viewer-card__title">Chaos Space Marine</h2>
 
                                 <div class="viewer-360" data-folder="Chosen" data-frames="12">
@@ -95,7 +100,7 @@
                                 </div>
 
                                 <h4 class="viewer-card__info">Obliterators</h4>
-                            </div> -->
+                            </div>
 
                         </div>
 
@@ -103,8 +108,10 @@
                         <button class="carousel__button-below--nextBtn">◀</button>
 
                         <div class="carousel__button-bottom">
-                            <button class="carousel__button-bottom--nextBtn">◀</button>
-                            <button class="carousel__button-bottom--prevBtn">▶</button>
+                            <div class="selector-button">
+                                <button class="carousel__button-bottom--nextBtn">◀</button>
+                                <button class="carousel__button-bottom--prevBtn">▶</button>
+                            </div>
                         </div>
 
                     </div>

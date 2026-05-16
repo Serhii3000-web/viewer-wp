@@ -81,7 +81,7 @@ body {
 }
 
 .viewer-card {
-    border: 7px solid #e10e0e; /*!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
+    /* border: 7px solid #e10e0e; */
 
     position: absolute;
     top: 50%;
@@ -103,7 +103,7 @@ body {
 }
 
 .viewer-card__panel {
-  border: 3px solid rgb(158, 47, 255);
+  /* border: 3px solid rgb(158, 47, 255); */
 
     position: absolute;
     top: 0%;
@@ -117,7 +117,7 @@ body {
 }
 
 .viewer-card__panel--left {
-  border: 2px solid greenyellow;
+  /* border: 2px solid greenyellow; */
 
     background-image: url('../img/Block 1 Left.png');
     background-repeat: no-repeat;
@@ -132,7 +132,7 @@ body {
 }
 
 .viewer-card__panel--right{
-  border: 2px solid rgb(158, 47, 255);
+  /* border: 2px solid rgb(158, 47, 255); */
 
     background-image: url('../img/Block 2 Right.png');
     background-repeat: no-repeat;
@@ -148,7 +148,7 @@ body {
 
 .viewer-card__title,
 .viewer-card__info {
-  border: 3px solid yellow;
+  /* border: 3px solid yellow; */
 
   margin: 0 auto;
   max-width: 100%;
@@ -207,14 +207,38 @@ body {
 }
 
 .carousel__button-bottom {
+border: 8px solid royalblue;
+
     display: flex;
     justify-content: center;
     gap: 20px;
-    margin-top: 20px;
+
+    width: clamp(300px, 30vw, 500px);
+    aspect-ratio: 4 / 1;
+
+    margin-top: clamp(10px, 2vw, 30px);
+    position: relative;
 }
 
-.carousel__button-bottom button.carousel__button-bottom--prevBtn,
-.carousel__button-bottom button.carousel__button-bottom--nextBtn {
+.selector-button{
+border: 1px solid orange;
+
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    position: absolute;
+    top: 0%;
+
+    width: 100%;
+    height: 100%;
+
+    background: url('../img/Select.png') center/contain no-repeat;
+
+}
+
+.carousel__button-bottom .carousel__button-bottom--prevBtn,
+.carousel__button-bottom .carousel__button-bottom--nextBtn {
+    margin: 0 auto;
     padding: 12px 24px;
     font-size: 24px;
     cursor: pointer;

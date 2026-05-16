@@ -23,8 +23,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const cardInfoElement  = card.querySelector('.viewer-card__info');
             const cardTitleElement  = card.querySelector('.viewer-card__title');
 
-            const cardLeftElement  = card.querySelector('.viewer-card__left');
-            const cardRightElement  = card.querySelector('.viewer-card__right');
+            const cardLeftElement  = card.querySelector('.viewer-card__panel.viewer-card__panel--left');
+            const cardRightElement  = card.querySelector('.viewer-card__panel.viewer-card__panel--right');
             
             if (!cardInfoElement .dataset.fullText) {
                 cardInfoElement .dataset.fullText = cardInfoElement .textContent;
