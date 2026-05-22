@@ -4,7 +4,9 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="icon" href="img/favicon.png">
+        <link rel="stylesheet" href="./css/logo-wh.css">
         <link rel="stylesheet" href="./css/style.css">
+
         <title>Slider WH</title>
     </head>
     <body>
@@ -14,15 +16,28 @@
 
             <!-- контент темы -->
             <div class="wp-content">
-
+<!-- ================================================================================ -->
                 <!-- твой плагин -->
                 <div class="wrapper-slider">
 
                     <!-- твоя сцена -->
                     <div class="carousel">
 
-                        <div class="carousel__panel carousel__panel--left"></div>
-                        <div class="carousel__panel carousel__panel--right"></div>
+                        <!-- <div class="title-ui">
+                            <img class="title-ui__bg" src="./img/Title.png" alt="Title">
+                            <div class="title-ui__slot title-ui__slot--faction">Faction</div>
+                            <div class="title-ui__slot title-ui__slot--text">CHAOS</div>
+                        </div> -->
+
+
+
+
+                        <!-- HEADER HUD -->
+                        <div class="hud" data-config="header" data-faction="chaos"></div>
+                        <!-- ------------------ -->
+
+                                <div class="carousel__panel carousel__panel--left"></div>
+                                <div class="carousel__panel carousel__panel--right"></div>
 
                         <div class="carousel__track">
 
@@ -107,12 +122,19 @@
                         <button class="carousel__button-below--prevBtn">▶</button>
                         <button class="carousel__button-below--nextBtn">◀</button>
 
-                        <div class="carousel__button-bottom">
+                        <!-- FOOTER HUD -->
+                        <div class="hud" data-config="footer" data-faction="imperium"></div>
+                        <!-- ------------------ -->
+
+
+
+
+                        <!-- <div class="carousel__button-bottom"> 
                             <div class="selector-button">
                                 <button class="carousel__button-bottom--nextBtn">◀</button>
                                 <button class="carousel__button-bottom--prevBtn">▶</button>
                             </div>
-                        </div>
+                        </div> -->
 
                     </div>
 
@@ -122,7 +144,10 @@
 
         </div>
 
-        <script defer src="./js/viewer360.js"></script>
+        <script src="./js/ConfigHud/config.js"></script>
+        <script src="./js/ClassLogo/LogoWH.js"></script>
+        <script src="./js/app.js"></script>
+        <script defer src="./js/ClassJS/Viewer360.js"></script>
         <script defer src="./js/main.js"></script>
         <!-- <script type="module" src="./js/main.js"></script> -->
     </body>

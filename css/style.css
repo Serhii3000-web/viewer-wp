@@ -43,52 +43,164 @@ body {
 }
 
 .wrapper-slider {
-  border: 3px solid rebeccapurple;
-
+border: 10px solid rebeccapurple;
+  background: radial-gradient(circle at center, #2f3f44 0%, #1b2427 100%);
   font-family: var(--userfont);
 	font-size: var(--regular-text);
 	line-height: var(--lineheight);
 	color: var(--text);
 
-  margin: 0 auto;
   width: 100%;
   max-width: 1366px;
-  background: radial-gradient(circle at center, #2f3f44 0%, #1b2427 100%);
+  margin: 0 auto;
+  /* width: fit-content; */
+  /* height: fit-content; */
 }
 
 .carousel {
-    position: relative;
-
+border: 7px solid rgb(222, 205, 17);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-
     width: 100%;
     min-height: clamp(700px, 80vh, 900px);
+    position: relative;
+    margin: 0 auto;
 
     overflow: hidden;
     perspective: 1200px;
 }
 
+/* =========================================
+   TITLE UI BLOCK
+   standalone embeddable component
+========================================= */
+.title-ui {
+      /*
+        Размер блока в родителе.
+        Можно менять где угодно.
+    */
+    width: min(400px, 100%);
+
+    /*
+        Исходный размер макета.
+        От него считаются координаты.
+    */
+    --ui-width: 600;
+    --ui-height: 100;
+
+    position: relative;
+
+    /*
+        Сохраняем пропорции.
+    */
+    /* aspect-ratio: calc(var(--ui-width) / var(--ui-height)); */
+    aspect-ratio: 6 / 1;
+    overflow: hidden;
+    isolation: isolate;
+    flex-shrink: 0;
+}
+
+/* =========================================
+   BACKGROUND IMAGE
+========================================= */
+.title-ui__bg {
+    position: absolute;
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+
+    display: block;
+    pointer-events: none;
+    user-select: none;
+}
+
+/* =========================================
+   TEXT SLOT
+========================================= */
+.title-ui__slot {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    position: absolute;
+    left: calc(var(--x) / var(--ui-width) * 100%);
+    top: calc(var(--y) / var(--ui-height) * 100%);
+    width: calc(var(--w) / var(--ui-width) * 100%);
+    height: calc(var(--h) / var(--ui-height) * 100%);
+
+    overflow: hidden;
+    white-space: nowrap;
+
+    font-size: clamp(
+        6px,
+        calc(10 / var(--ui-width) * 100vw),
+        10px
+    );
+
+    line-height: 1;
+    font-weight: 700;
+
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+
+    transform-origin: center;
+}
+
+/* =========================================
+   TEXT Faction
+========================================= */
+.title-ui__slot--faction {
+    --x: 220;
+    --y: 40;
+    --w: 160;
+    --h: 18;
+
+    color: #6ea9b9;
+    text-shadow: 0 0 2px #27515e, 0 0 8px #538795;
+}
+
+/* =========================================
+   TEXT Title
+========================================= */
+.title-ui__slot--text {
+    --x: 220;
+    --y: 65;
+    --w: 160;
+    --h: 18;
+
+    color: rgb(245, 238, 13);
+    text-shadow: 0 0 2px rgba(173, 173, 149, 0.8), 0 0 8px rgba(239, 235, 5, 0.47);
+}
+
 .carousel__track {
+border: 5px solid rgb(10, 32, 198);
     flex: 1;
+    align-self: stretch;
+    margin: 0px auto;
+    padding-bottom: 10px;
 
     position: relative;
     width: 100%;
-    height: 100%;
+    /* height: 100%; */
     transform-style: preserve-3d;
 }
 
 .viewer-card {
-    /* border: 7px solid #e10e0e; */
+  border: 3px solid #e10e0e;
 
     position: absolute;
     top: 50%;
     left: 50%;
 
-    /* width: fit-content;*/
+    /* height: fit-content; */
+    /* width: fit-content; */
     width: min(500px, 100%);
+    width: min(fit-content, 100%);
 
     transform:
         translate(-50%, -50%);
@@ -103,7 +215,7 @@ body {
 }
 
 .viewer-card__panel {
-  /* border: 3px solid rgb(158, 47, 255); */
+border: 3px solid rgb(158, 47, 255);
 
     position: absolute;
     top: 0%;
@@ -117,7 +229,7 @@ body {
 }
 
 .viewer-card__panel--left {
-  /* border: 2px solid greenyellow; */
+  border: 2px solid rgb(47, 193, 255);
 
     background-image: url('../img/Block 1 Left.png');
     background-repeat: no-repeat;
@@ -132,7 +244,7 @@ body {
 }
 
 .viewer-card__panel--right{
-  /* border: 2px solid rgb(158, 47, 255); */
+border: 2px solid rgb(232, 208, 30);
 
     background-image: url('../img/Block 2 Right.png');
     background-repeat: no-repeat;
@@ -207,7 +319,7 @@ body {
 }
 
 .carousel__button-bottom {
-border: 8px solid royalblue;
+border: 5px solid royalblue;
 
     display: flex;
     justify-content: center;

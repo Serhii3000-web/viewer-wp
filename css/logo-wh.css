@@ -1,0 +1,207 @@
+/* logo-wh.css */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: #232f33;
+    font-family: Arial, sans-serif;
+}
+
+.wrap {
+    width: 100%;
+    padding: 40px 20px;
+}
+
+.slider-placeholder {
+    min-height: 60vh;
+    margin: 40px auto;
+
+    border: 3px solid red;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    color: white;
+    font-size: 32px;
+}
+
+/* ====================================================== */
+
+.hud {
+    --hud-width: min(900px, 100%);
+    --hud-aspect: 6 / 1;
+
+    --hud_list: 10px;
+
+    --hud_btn-width: clamp(80px, 7vw, 100px);
+    --hud_btn-aspect: 2 / 1;
+    --hud_btn-bakground-color: rgba(255,255,255,.1);
+    --hud_btn-border: 1px solid rgba(255,255,255,.3);
+    --hud_btn-radius: 10%;
+    --hud_btn-color-text: white;
+
+    --hud-btn-prev-top: 52%;
+    --hud-btn-prev-left: 11%;
+    --hud-btn-prev-right: 11%;
+    
+    position: relative;
+    margin: 0 auto;
+
+    width: var(--hud-width);
+    aspect-ratio: var(--hud-aspect);
+}
+
+/* ====================================================== */
+
+.hud__view {
+    width: 100%;
+    height: 100%;
+}
+
+.hud__canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+/* ============================================ */
+
+.hud__controls {
+    position: absolute;
+    inset: 0;
+
+    pointer-events: none;
+}
+
+/* ============================================ */
+
+.hud__list {
+    margin: 0;
+    padding: 0;
+
+    width: 100%;
+    height: 100%;
+
+    list-style: none;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--hud_list);
+}
+
+/* ============================================ */
+
+.hud__item {
+    pointer-events: auto;
+}
+
+/* ============================================ */
+
+.hud__btn,
+.hud__slider-prev,
+.hud__slider-next {
+
+    width: var(--hud_btn-width);
+    aspect-ratio: var(--hud_btn-aspect);
+
+    border: none;
+    cursor: pointer;
+
+    background: var(--hud_btn-bakground-color);
+    /* background-color: blueviolet; */
+    border: var(--hud_btn-border);
+    border-radius: var(--hud_btn-radius);
+
+    color: var(--hud_btn-color-text);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* ============================================ */
+
+.hud__btn:hover,
+.hud__slider-prev:hover,
+.hud__slider-next:hover {
+    background: rgba(255,255,255,.2);
+}
+
+/* ============================================ */
+/* faction buttons */
+/* ============================================ */
+
+.hud__btn--chaos {
+    /* transform: translateY(30%); */
+    transform:
+        translateY(30%)
+        perspective(200px)
+        rotateY(20deg)
+        rotateZ(-5deg);
+}
+
+.hud__btn--imperium {
+    /* transform: translateY(16%); */
+    transform:
+        translateY(16%)
+        perspective(300px)
+        rotateY(20deg)
+        rotateZ(-2deg);
+    aspect-ratio: 1.8 / 0.8;
+}
+
+.hud__btn--marines {
+    /* transform: translateY(16%); */
+    transform:
+        translateY(16%)
+        perspective(300px)
+        rotateY(-20deg)
+        rotateZ(2deg);
+    aspect-ratio: 1.8 / 0.8;
+}
+
+.hud__btn--xenos {
+    /* transform: translateY(30%); */
+    transform:
+        translateY(30%)
+        perspective(200px)
+        rotateY(-20deg)
+        rotateZ(5deg);
+}
+
+/* ============================================ */
+/* slider buttons */
+/* ============================================ */
+
+.hud__slider-prev,
+.hud__slider-next {
+    position: absolute;
+    top: var(--hud-btn-prev-top);
+    transform: translateY(-30%);
+    pointer-events: auto;
+
+    width: calc(var(--hud_btn-width) * 0.9);
+}
+
+.hud__slider-prev {
+    left: var(--hud-btn-prev-left);
+    transform:
+        perspective(400px)
+        rotateY(20deg)
+        rotateZ(-5deg);
+}
+
+.hud__slider-next {
+    right: var(--hud-btn-prev-right);
+    transform:
+        perspective(400px)
+        rotateY(-20deg)
+        rotateZ(5deg);
+}

@@ -8,6 +8,7 @@ class Viewer360 {
 
         // ---------- data ----------
         this.folder = element.dataset.folder;
+console.log('viewer360 | element.dataset.folder = ', this.folder);
         this.totalFrames = parseInt(element.dataset.frames);
 
         // ---------- canvas ----------
@@ -88,13 +89,20 @@ class Viewer360 {
         }
     }
 
-    // ---------- resize ----------
+    // ---------- resize Canvas ----------
     resizeCanvas() {
 
+        // offsetParent - встроенное свойство элемента,
+        // которое возвращает ближайшего предка (родителя),
+        // относительно которого позиционируется данный элемент.
         if (this.element.offsetParent === null) {
             return;
         }
 
+        // clientWidth — это свойство в JavaScript,
+        // которое возвращает внутреннюю ширину HTML-элемента в пикселях.
+        // Оно включает область содержимого и внутренние отступы (padding),
+        // но не включает рамки (border), внешние отступы (margin) и полосу прокрутки.
         const width = this.element.clientWidth;
         const height = this.element.clientHeight;
         const dpr = window.devicePixelRatio || 1;
