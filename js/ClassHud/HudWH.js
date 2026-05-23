@@ -1,16 +1,22 @@
-// LogoWH.js
+// HudWH.js (LogoWH.js)
 
-class LogoWH {
+class HudWH {
 
     constructor(root) {
+        if(!root){
+            this.isValid = false;
+            this.root = null;
+            return;
+        } else {
+            this.isValid = true;
+            this.root = root;
+        }
 
-        this.root = root;
-
-        this.layoutName = root.dataset.config;
-        this.factionName = root.dataset.faction;
+        this.layoutName = root.dataset.layout;
+        this.fractionName = root.dataset.fraction;
 
         this.layout = HUD_LAYOUTS[this.layoutName];
-        this.faction = HUD_FACTIONS[this.factionName];
+        this.fraction = HUD_FRACTIONS[this.fractionName];
 
         this.canvas = null;
         this.ctx = null;
@@ -25,6 +31,7 @@ class LogoWH {
     /* ====================================================== */
 
     init() {
+        if (!this.isValid) return;
 
         this.build();
 
@@ -52,7 +59,6 @@ class LogoWH {
         this.root.innerHTML = '';
 
         /* VIEW */
-
         const view = document.createElement('div');
         view.className = 'hud__view';
 
@@ -64,27 +70,10 @@ class LogoWH {
         this.root.append(view);
 
         /* CONTROLS */
-
         if (this.layout.controls) {
-
             const controls = document.createElement('div');
             controls.className = 'hud__controls';
-
-            controls.innerHTML = `
-                    <div class="hud__controls">
-                        <button class="hud__slider-prev">◀</button>
-
-                        <ul class="hud__list">
-                            <li class="hud__item"><button class="hud__btn hud__btn--chaos"></button></li>
-                            <li class="hud__item"><button class="hud__btn hud__btn--imperium"></button></li>
-                            <li class="hud__item"><button class="hud__btn hud__btn--marines"></button></li>
-                            <li class="hud__item"><button class="hud__btn hud__btn--xenos"></button></li>
-                        </ul>
-
-                        <button class="hud__slider-next">▶</button>
-                    </div>
-            `;
-
+            controls.innerHTML = this.layout.controls;
             this.root.append(controls);
         }
     }
@@ -143,17 +132,17 @@ class LogoWH {
         );
 
         /* TEXT */
-        if(this.layoutName === "header"){
+        if(this.layout.text){
             for (const [fieldName, field] of Object.entries(this.layout.fields)) {
 
                 let text = '';
 
-                if (fieldName === 'faction') {
-                    text = this.faction.faction;
+                if (fieldName === 'fraction') {
+                    text = this.fraction.fraction;
                 }
 
                 if (fieldName === 'title') {
-                    text = this.faction.title;
+                    text = this.fraction.title;
                 }
 
                 const scaledSize =

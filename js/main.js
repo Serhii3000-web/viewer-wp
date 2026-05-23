@@ -1,3 +1,5 @@
+// main.js
+
 document.addEventListener('DOMContentLoaded', () => {
 
     // ---------- cards ----------
@@ -124,21 +126,36 @@ console.log('cards.length = ', cards.length);
 
     updateActiveCard(cardInfoLength);
 
-    // ---------- prev Btn-Below ----------
+// ---------- prev Btn-Below -----------------------------------
+                // document
+                //     .querySelector('.carousel__button-below--prevBtn')
+                //     .addEventListener('click', () => {
+                        
+                //         activeIndex--;
+
+                //         if (activeIndex < 0) {
+                //             activeIndex = cards.length - 1;
+                //         }
+
+                //     updateActiveCard(cardInfoLength);
+                // });
+
     document
-        .querySelector('.carousel__button-below--prevBtn')
-        .addEventListener('click', () => {
-            
-            activeIndex--;
+            .querySelectorAll('.carousel__button-below--prevBtn')
+            .forEach((prevBtn) => { 
+                prevBtn.addEventListener('click', () => {
+                
+                        activeIndex--;
 
-            if (activeIndex < 0) {
-                activeIndex = cards.length - 1;
-            }
+                        if (activeIndex < 0) {
+                            activeIndex = cards.length - 1;
+                        }
 
-        updateActiveCard(cardInfoLength);
-    });
+                    updateActiveCard(cardInfoLength);
+                });
+            });
 
-    // ---------- next Btn-Below ----------
+// ---------- next Btn-Below ----------
     document
         .querySelector('.carousel__button-below--nextBtn')
         .addEventListener('click', () => {
@@ -153,33 +170,64 @@ console.log('cards.length = ', cards.length);
     });
 
 
-    // ---------- prev Btn-Bottom ----------
-    document
-        .querySelector('.carousel__button-bottom--prevBtn')
-        .addEventListener('click', () => {
+// ---------- next Btn-Bottom ----------
+                // document
+                //     .querySelector('.hud__slider-next')
+                //     .addEventListener('click', () => {
 
-            activeIndex--;
+                //         activeIndex--;
 
-            if (activeIndex < 0) {
-                activeIndex = cards.length - 1;
-            }
+                //         if (activeIndex < 0) {
+                //             activeIndex = cards.length - 1;
+                //         }
 
-        updateActiveCard(cardInfoLength);
-    });
+                //     updateActiveCard(cardInfoLength);
+                // });
 
-    // ---------- next Btn-Bottom----------
-    document
-        .querySelector('.carousel__button-bottom--nextBtn')
-        .addEventListener('click', () => {
-            
-            activeIndex++;
 
-            if (activeIndex >= cards.length) {
-                activeIndex = 0;
-            }
+        document
+            .querySelectorAll('.hud__slider-next')
+            .forEach((prevBtn) => { 
+                prevBtn.addEventListener('click', () => {
+                
+                        activeIndex--;
 
-        updateActiveCard(cardInfoLength);
-    });
+                        if (activeIndex < 0) {
+                            activeIndex = cards.length - 1;
+                        }
+
+                    updateActiveCard(cardInfoLength);
+                });
+            });
+
+// ---------- prev Btn-Bottom ------------------------------------
+                // document
+                //     .querySelector('.hud__slider-prev')
+                //     .addEventListener('click', () => {
+                        
+                //         activeIndex++;
+
+                //         if (activeIndex >= cards.length) {
+                //             activeIndex = 0;
+                //         }
+
+                //     updateActiveCard(cardInfoLength);
+                // });
+
+        document
+            .querySelectorAll('.hud__slider-prev')
+            .forEach((prevBtn) => { 
+                prevBtn.addEventListener('click', () => {
+                
+                        activeIndex++;
+
+                        if (activeIndex >= cards.length) {
+                            activeIndex = 0;
+                        }
+
+                    updateActiveCard(cardInfoLength);
+                });
+            });
 
     // ================ Keyboard ====================
     window.addEventListener('keydown', (e) => {

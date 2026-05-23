@@ -1,0 +1,422 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+/* USER VARIABLES SECTION */
+
+:root {
+	--accent: #eb2fc5;
+  --titel: #e10e0e;
+	--text: #efeb10;
+	--regular-text: clamp(16px, 3vw, 32px);;
+  --font-img-title: clamp(28px, 4vw, 48px);
+  --font-img-info: clamp(20px, 3vw, 36px);
+  --imgleinheight: 1.1;
+	--lineheight: 1.65;
+	--userfont: roboto-st, sans-serif;
+	--systemfont: -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+	--padding: 100px; /* --padding: 120px; */
+	--transition: cubic-bezier(.2, 0, 0, 1);/* --transition: cubic-bezier(.4, 0, 0, 1); */
+}
+
+/* FONTS LOAD SECTION */
+
+@font-face { src: url("../fonts/roboto-regular-webfont.woff2") format("woff2"); font-family: "roboto-st"; font-weight: 400; font-style: normal; }
+@font-face { src: url("../fonts/roboto-italic-webfont.woff2") format("woff2"); font-family: "roboto-st"; font-weight: 400; font-style: italic; }
+@font-face { src: url("../fonts/roboto-bold-webfont.woff2") format("woff2"); font-family: "roboto-st"; font-weight: 700; font-style: normal; }
+@font-face { src: url("../fonts/roboto-bolditalic-webfont.woff2") format("woff2"); font-family: "roboto-st"; font-weight: 700; font-style: italic; }
+@font-face { src: url("../fonts/assassin.woff2") format("woff2"); font-family: "assassin-st"; font-weight: 700; font-style: italic; }
+
+body {
+  background-color: #232f33;
+}
+
+.page-layout {
+    padding: 40px 20px;
+}
+
+.wp-content {
+    max-width: 1800px;
+    margin: 0 auto;
+}
+
+.wrapper-slider {
+border: 10px solid rebeccapurple;
+  background: radial-gradient(circle at center, #2f3f44 0%, #1b2427 100%);
+  font-family: var(--userfont);
+	font-size: var(--regular-text);
+	line-height: var(--lineheight);
+	color: var(--text);
+
+  width: 100%;
+  max-width: 1366px;
+  margin: 0 auto;
+  /* width: fit-content; */
+  /* height: fit-content; */
+}
+
+.carousel {
+border: 7px solid rgb(222, 205, 17);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: clamp(700px, 80vh, 900px);
+    position: relative;
+    margin: 0 auto;
+
+    overflow: hidden;
+    perspective: 1200px;
+}
+
+/* =========================================
+   TITLE UI BLOCK
+   standalone embeddable component
+========================================= */
+.title-ui {
+      /*
+        Размер блока в родителе.
+        Можно менять где угодно.
+    */
+    width: min(400px, 100%);
+
+    /*
+        Исходный размер макета.
+        От него считаются координаты.
+    */
+    --ui-width: 600;
+    --ui-height: 100;
+
+    position: relative;
+
+    /*
+        Сохраняем пропорции.
+    */
+    /* aspect-ratio: calc(var(--ui-width) / var(--ui-height)); */
+    aspect-ratio: 6 / 1;
+    overflow: hidden;
+    isolation: isolate;
+    flex-shrink: 0;
+}
+
+/* =========================================
+   BACKGROUND IMAGE
+========================================= */
+.title-ui__bg {
+    position: absolute;
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+
+    display: block;
+    pointer-events: none;
+    user-select: none;
+}
+
+/* =========================================
+   TEXT SLOT
+========================================= */
+.title-ui__slot {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    position: absolute;
+    left: calc(var(--x) / var(--ui-width) * 100%);
+    top: calc(var(--y) / var(--ui-height) * 100%);
+    width: calc(var(--w) / var(--ui-width) * 100%);
+    height: calc(var(--h) / var(--ui-height) * 100%);
+
+    overflow: hidden;
+    white-space: nowrap;
+
+    font-size: clamp(
+        6px,
+        calc(10 / var(--ui-width) * 100vw),
+        10px
+    );
+
+    line-height: 1;
+    font-weight: 700;
+
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+
+    transform-origin: center;
+}
+
+/* =========================================
+   TEXT Faction
+========================================= */
+.title-ui__slot--faction {
+    --x: 220;
+    --y: 40;
+    --w: 160;
+    --h: 18;
+
+    color: #6ea9b9;
+    text-shadow: 0 0 2px #27515e, 0 0 8px #538795;
+}
+
+/* =========================================
+   TEXT Title
+========================================= */
+.title-ui__slot--text {
+    --x: 220;
+    --y: 65;
+    --w: 160;
+    --h: 18;
+
+    color: rgb(245, 238, 13);
+    text-shadow: 0 0 2px rgba(173, 173, 149, 0.8), 0 0 8px rgba(239, 235, 5, 0.47);
+}
+
+.carousel__track {
+border: 5px solid rgb(10, 32, 198);
+    flex: 1;
+    align-self: stretch;
+    margin: 0px auto;
+    padding-bottom: 10px;
+
+    position: relative;
+    width: 100%;
+    /* height: 100%; */
+    transform-style: preserve-3d;
+}
+
+/* .viewer-card {
+  border: 3px solid #e10e0e;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    height: max(60vh, 100%);
+    width: fit-content;
+
+    transform:
+        translate(-50%, -50%);
+
+    transition:
+      transform 0.7s cubic-bezier(.2,.8,.2,1),
+      opacity 0.4s ease;
+
+    transform-origin: center center;
+
+    z-index: 20;
+} */
+
+.viewer-card {
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
+    display: flex;
+    flex-direction: column;
+
+    width: min(500px, 100%);
+
+    /*
+        ВАЖНО
+    */
+    max-height: 100%;
+
+    /*
+        Чтобы контент не выталкивал
+    */
+    overflow: hidden;
+
+    transition:
+      transform 0.7s cubic-bezier(.2,.8,.2,1),
+      opacity 0.4s ease;
+
+    transform-origin: center center;
+
+    z-index: 20;
+}
+
+.viewer-card__panel {
+border: 3px solid rgb(158, 47, 255);
+
+    position: absolute;
+    top: 0%;
+
+    width: min(300px, 100%);
+    height: 100%;
+
+    overflow: auto;
+
+    z-index: 21;
+}
+
+.viewer-card__panel--left {
+  border: 2px solid rgb(47, 193, 255);
+
+    background-image: url('../img/Block 1 Left.png');
+    background-repeat: no-repeat;
+    background-size: 100% auto;
+
+    left: -350px;
+ 
+    padding-top: 20px;
+    overflow: hidden;
+
+    /* transform: perspective(350px) rotateY(10deg); */
+}
+
+.viewer-card__panel--right{
+border: 2px solid rgb(232, 208, 30);
+
+    background-image: url('../img/Block 2 Right.png');
+    background-repeat: no-repeat;
+    background-size: 100% auto;
+
+    right: -350px;
+
+    /* aspect-ratio: 2 / 3; */
+    overflow: auto;
+
+    /* transform: perspective(350px) rotateY(-10deg); */
+}
+
+.viewer-card__title,
+.viewer-card__info {
+    border: 3px solid yellow;
+
+    margin: 0;
+    padding: clamp(6px, 1vw, 12px) clamp(12px, 2vw, 30px);
+
+    width: 100%;
+
+    /*
+        НЕ ДАЁМ РАСТЯГИВАТЬ КАРТОЧКУ
+    */
+    flex-shrink: 0;
+
+    text-align: center;
+
+    font-family: assassin-st, sans-serif;
+
+    /*
+        Вместо огромных clamp
+    */
+    font-size: clamp(16px, 2vw, 36px);
+
+    /*
+        line-height должен быть ЧИСЛОМ
+        а не calc(font-size * ...)
+    */
+    line-height: 1.1;
+
+    white-space: normal;
+    overflow-wrap: break-word;
+    word-break: break-word;
+
+    /*
+        защита от вертикального раздувания
+    */
+    overflow: hidden;
+}
+
+.viewer-card__info {
+    color: var(--text);
+    font-size: clamp(14px, 1.6vw, 28px);
+}
+
+.viewer-360 {
+    width: 100%;
+
+    /*
+        Самое важное
+    */
+    flex: 1;
+
+    /*
+        Разрешаем ужиматься
+    */
+    min-height: 0;
+
+    aspect-ratio: 1 / 1;
+
+    overflow: hidden;
+}
+
+.viewer-360__canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* =============== carousel__buttons-bottom Button ================== */
+.carousel__button-below--prevBtn,
+.carousel__button-below--nextBtn {
+    position: absolute;
+    top: 50%;
+
+    padding: 10px 20px;
+    cursor: pointer;
+    opacity: 0.6;
+
+    transform: translateY(-50%);
+}
+
+.carousel__button-below--prevBtn {
+    left: 20px;
+}
+
+.carousel__button-below--nextBtn {
+    right: 20px;
+}
+
+.carousel__button-bottom {
+border: 5px solid royalblue;
+
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+
+    width: clamp(300px, 30vw, 500px);
+    aspect-ratio: 4 / 1;
+
+    margin-top: clamp(10px, 2vw, 30px);
+    position: relative;
+}
+
+.selector-button{
+border: 1px solid orange;
+
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    position: absolute;
+    top: 0%;
+
+    width: 100%;
+    height: 100%;
+
+    background: url('../img/Select.png') center/contain no-repeat;
+
+}
+
+.carousel__button-bottom .carousel__button-bottom--prevBtn,
+.carousel__button-bottom .carousel__button-bottom--nextBtn {
+    margin: 0 auto;
+    padding: 12px 24px;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.carousel__track {
+    overflow: hidden;
+}
+
+/* ======================================================= */
