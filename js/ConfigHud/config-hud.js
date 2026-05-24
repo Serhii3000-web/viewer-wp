@@ -9,22 +9,25 @@ const HUD_LAYOUTS = {
             html:   `
                     <button class="hud__slider-setting">◀</button>
                     <button class="hud__card-setting">▶</button>
-                    `},
+                    `
+        },
 
         fieldsText: {
             enabled: true,
-            faction: {
-                x: 50,
-                y: 50,
-                size: 12,
-                color: '#6395a9'
-            },
+            fields: {
+                faction: {
+                    x: 50,
+                    y: 50,
+                    size: 12,
+                    color: '#6395a9'
+                },
 
-            title: {
-                x: 50,
-                y: 76,
-                size: 20,
-                color: '#d70909'
+                title: {
+                    x: 50,
+                    y: 76,
+                    size: 20,
+                    color: '#d70909'
+                }
             }
         }
     },
@@ -33,26 +36,36 @@ const HUD_LAYOUTS = {
         image: './img/Select.png',
         controls: {
             enabled: true,
-            html:   `
-                    <button class="hud__slider-prev">◀</button>
-                    <ul class="hud__list">
-                        <li class="hud__item">
-                            <button class="hud__btn hud__btn--chaos"></button>
-                        </li>
-                        <li class="hud__item">
-                            <button class="hud__btn hud__btn--imperium"></button>
-                        </li>
-                        <li class="hud__item">
-                            <button class="hud__btn hud__btn--marines"></button>
-                        </li>
-                        <li class="hud__item">
-                            <button class="hud__btn hud__btn--xenos"></button>
-                        </li>
-                    </ul>
-                    <button class="hud__slider-next">▶</button>
-                    `},
+            html: `
+                <button class="hud__slider-prev">◀</button>
 
-        fieldsText: {enabled: false}
+                <ul class="hud__list">
+
+                    <li class="hud__item">
+                        <button class="hud__btn hud__btn--chaos"></button>
+                    </li>
+
+                    <li class="hud__item">
+                        <button class="hud__btn hud__btn--imperium"></button>
+                    </li>
+
+                    <li class="hud__item">
+                        <button class="hud__btn hud__btn--marines"></button>
+                    </li>
+
+                    <li class="hud__item">
+                        <button class="hud__btn hud__btn--xenos"></button>
+                    </li>
+
+                </ul>
+
+                <button class="hud__slider-next">▶</button>
+            `
+        },
+
+        fieldsText: {
+            enabled: false
+        }
     }
 };
 

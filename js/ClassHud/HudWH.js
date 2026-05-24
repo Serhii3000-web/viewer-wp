@@ -1,62 +1,42 @@
-// HudWH.js (LogoWH.js)
-
 class HudWH {
 
-    constructor(root, classCSS) {
-        if(!root){
+    constructor(root) {
+
+        if (!root) {
             this.isValid = false;
-            this.root = null;
             return;
-        } else {
-            this.isValid = true;
-            this.root = root;
         }
 
+        this.root = root;
         this.layoutName = root.dataset.layout;
         this.factionName = root.dataset.faction;
 
         this.layout = HUD_LAYOUTS[this.layoutName];
         this.faction = HUD_FACTIONS[this.factionName];
 
-        this.canvas = null;
-        this.ctx = null;
-
-        this.image = new Image();
-
-        this.handleResize = this.handleResize.bind(this);
-
-        this.init();
-    }
-
-    /* ====================================================== */
-
-    init() {
-        if (!this.isValid) return;
+        if (!this.layout || !this.faction) {
+            this.isValid = false;
+            return;
+        }
 
         this.build();
 
-        this.canvas = this.root.querySelector('.hud__canvas');
-        this.ctx = this.canvas.getContext('2d');
-
-        this.image.src = this.layout.image;
+        this.canvasElement = this.root.querySelector('.hud__canvas');
+        this.canvas = new CanvasBase(this.canvasElement);
+        this.ctx = this.canvas.ctx;
+        this.image = new Image();
 
         this.image.onload = () => {
-
-            this.resize();
             this.render();
-
-            window.addEventListener(
-                'resize',
-                this.handleResize
-            );
         };
+
+        this.image.src = this.layout.image;
     }
 
-    /* ====================================================== */
+    /* ====================================== */
 
     build() {
-
-        this.root.innerHTML = '';
+        this.root.replaceChildren();
 
         /* VIEW */
         const view = document.createElement('div');
@@ -70,59 +50,23 @@ class HudWH {
         this.root.append(view);
 
         /* CONTROLS */
-        if (this.layout.controls.enabled) {
+        if (this.layout.controls?.enabled) {
             const controls = document.createElement('div');
             controls.className = 'hud__controls';
             controls.innerHTML = this.layout.controls.html;
+
             this.root.append(controls);
         }
     }
 
-    /* ====================================================== */
-
-    handleResize() {
-
-        this.resize();
-        this.render();
-    }
-
-    /* ====================================================== */
-
-    resize() {
-
-        const dpr = window.devicePixelRatio || 1;
-
-        const rect = this.canvas.getBoundingClientRect();
-
-        this.canvas.width = rect.width * dpr;
-        this.canvas.height = rect.height * dpr;
-
-        this.ctx.setTransform(
-            dpr,
-            0,
-            0,
-            dpr,
-            0,
-            0
-        );
-    }
-
-    /* ====================================================== */
+    /* ====================================== */
 
     render() {
-
-        const width = this.canvas.clientWidth;
-        const height = this.canvas.clientHeight;
-
-        this.ctx.clearRect(
-            0,
-            0,
-            width,
-            height
-        );
+        const width = this.canvas.canvas.clientWidth;
+        const height = this.canvas.canvas.clientHeight;
+        this.canvas.clear();
 
         /* IMAGE */
-
         this.ctx.drawImage(
             this.image,
             0,
@@ -132,29 +76,16 @@ class HudWH {
         );
 
         /* TEXT */
-        if(this.layout.fieldsText.enabled){
-            for (const [fieldName, field] of Object.entries(this.layout.fieldsText)) {
+        if (!this.layout.fieldsText?.enabled) return;
+        const fields = this.layout.fieldsText.fields;
 
-                let text = '';
-
-                if (fieldName === 'faction') {
-                    text = this.faction.faction;
-                }
-
-                if (fieldName === 'title') {
-                    text = this.faction.title;
-                }
-
-                const scaledSize =
-                    height * field.size / 100;
-
+        Object.entries(fields).forEach(([fieldName, field]) => {
+                const text = this.faction[fieldName];
+                if (!text) return;
+                const scaledSize = height * field.size / 100;
                 this.ctx.fillStyle = field.color;
-
-                this.ctx.font =
-                    `${scaledSize}px Arial`;
-
+                this.ctx.font = `${scaledSize}px Arial`;
                 this.ctx.textAlign = 'center';
-
                 this.ctx.textBaseline = 'middle';
 
                 this.ctx.fillText(
@@ -163,6 +94,12 @@ class HudWH {
                     height * field.y / 100
                 );
             }
-        }
+        );
+    }
+
+    /* ====================================== */
+
+    destroy() {
+        this.canvas.destroy();
     }
 }

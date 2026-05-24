@@ -11,8 +11,10 @@ class Viewer360 {
         this.totalFrames = parseInt(element.dataset.frames);
 
         // ---------- canvas ----------
-        this.canvas = element.querySelector('.viewer-360__canvas');
-        this.ctx = this.canvas.getContext('2d');
+        this.canvasElement = element.querySelector('.viewer-360__canvas');
+
+        this.canvas = new CanvasBase(this.canvasElement);
+        this.ctx = this.canvas.ctx;
 
         // ---------- state ----------
         this.images = [];
@@ -25,10 +27,10 @@ class Viewer360 {
 
         this.animationFrame = null;
 
+        this.canvas.resize();
+
         // ---------- init ----------
-        this.resizeCanvas();
         this.initEvents();
-        // this.inertia();
 
         // ---------- resize ----------
         window.addEventListener('resize', () => {
@@ -174,7 +176,7 @@ class Viewer360 {
     initEvents() {
 
         // mouse down
-        this.canvas.addEventListener('mousedown', (e) => {
+        this.canvasElement.addEventListener('mousedown', (e) => {
             this.isDragging = true;
             this.lastX = e.clientX;
         });
@@ -191,7 +193,7 @@ class Viewer360 {
         });
 
         // touch start
-        this.canvas.addEventListener('touchstart', (e) => {
+        this.canvasElement.addEventListener('touchstart', (e) => {
             this.isDragging = true;
             this.lastX = e.touches[0].clientX;
         });
@@ -202,7 +204,7 @@ class Viewer360 {
         });
 
         // touch move
-        this.canvas.addEventListener(
+        this.canvasElement.addEventListener(
             'touchmove',
             (e) => {
                 if (!this.isDragging) {
