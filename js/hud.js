@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     huds.forEach(root => {
         new HudWH(root);
+        HudManagerCSS.apply(root, root.dataset.faction);
     });
 
 });

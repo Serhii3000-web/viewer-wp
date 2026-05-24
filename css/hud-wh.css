@@ -34,21 +34,22 @@ body {
 /* ====================================================== */
 
 .hud {
-    --hud-width: min(600px, 100%);
+    /* --hud-width: min(600px, 100%);
     --hud-aspect: 6 / 1;
 
     --hud_list-gap: 10px;
 
     --hud_btn-width: clamp(53px, 5vw, 66px);
-    --hud_btn-aspect: 2 / 1;
-    --hud_btn-bakground-color: rgba(255,255,255,.1);
+    --hud_btn-aspect: 2 / 1; */
+
+    /* --hud_btn-bakground-color: rgba(255,255,255,.1);
     --hud_btn-border: 1px solid rgba(255,255,255,.3);
     --hud_btn-radius: 10%;
-    --hud_btn-color-text: white;
+    --hud_btn-color-text: white; */
 
-    --hud-btn-prev-top: 52%;
+    /* --hud-btn-prev-top: 52%;
     --hud-btn-prev-left: 11%;
-    --hud-btn-prev-right: 11%;
+    --hud-btn-prev-right: 11%; */
     
     position: relative;
     margin: 0 auto;
@@ -105,7 +106,15 @@ body {
 
 /* ============================================ */
 
+/* .hud__btn {
+    background: var(--hud-btn-bg);
+    border: 1px solid var(--hud-btn-border);
+    color: var(--hud-btn-color);
+} */
+
 .hud__btn,
+.hud__slider-setting,
+.hud__card-setting,
 .hud__slider-prev,
 .hud__slider-next {
 
@@ -119,7 +128,6 @@ body {
     /* background-color: blueviolet; */
     border: var(--hud_btn-border);
     border-radius: var(--hud_btn-radius);
-
     color: var(--hud_btn-color-text);
 
     display: flex;
@@ -130,6 +138,8 @@ body {
 /* ============================================ */
 
 .hud__btn:hover,
+.hud__slider-setting:hover,
+.hud__card-setting:hover,
 .hud__slider-prev:hover,
 .hud__slider-next:hover {
     background: rgba(255,255,255,.2);
@@ -181,6 +191,8 @@ body {
 /* slider buttons */
 /* ============================================ */
 
+.hud__slider-setting,
+.hud__card-setting,
 .hud__slider-prev,
 .hud__slider-next {
     position: absolute;
@@ -191,6 +203,7 @@ body {
     width: calc(var(--hud_btn-width) * 0.9);
 }
 
+.hud__slider-setting,
 .hud__slider-prev {
     left: var(--hud-btn-prev-left);
     transform:
@@ -199,10 +212,21 @@ body {
         rotateZ(-5deg);
 }
 
+.hud__card-setting,
 .hud__slider-next {
     right: var(--hud-btn-prev-right);
     transform:
         perspective(400px)
         rotateY(-20deg)
         rotateZ(5deg);
+}
+
+.hud__slider-setting {
+    top: 80%;
+    left: 16%;
+}
+
+.hud__card-setting{
+    top: 80%;
+    right: 16%;
 }

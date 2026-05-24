@@ -8,7 +8,6 @@ class Viewer360 {
 
         // ---------- data ----------
         this.folder = element.dataset.folder;
-console.log('viewer360 | element.dataset.folder = ', this.folder);
         this.totalFrames = parseInt(element.dataset.frames);
 
         // ---------- canvas ----------

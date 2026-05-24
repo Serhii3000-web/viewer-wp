@@ -2,7 +2,7 @@
 
 class HudWH {
 
-    constructor(root) {
+    constructor(root, classCSS) {
         if(!root){
             this.isValid = false;
             this.root = null;
@@ -13,10 +13,10 @@ class HudWH {
         }
 
         this.layoutName = root.dataset.layout;
-        this.fractionName = root.dataset.fraction;
+        this.factionName = root.dataset.faction;
 
         this.layout = HUD_LAYOUTS[this.layoutName];
-        this.fraction = HUD_FRACTIONS[this.fractionName];
+        this.faction = HUD_FACTIONS[this.factionName];
 
         this.canvas = null;
         this.ctx = null;
@@ -70,10 +70,10 @@ class HudWH {
         this.root.append(view);
 
         /* CONTROLS */
-        if (this.layout.controls) {
+        if (this.layout.controls.enabled) {
             const controls = document.createElement('div');
             controls.className = 'hud__controls';
-            controls.innerHTML = this.layout.controls;
+            controls.innerHTML = this.layout.controls.html;
             this.root.append(controls);
         }
     }
@@ -132,17 +132,17 @@ class HudWH {
         );
 
         /* TEXT */
-        if(this.layout.text){
-            for (const [fieldName, field] of Object.entries(this.layout.fields)) {
+        if(this.layout.fieldsText.enabled){
+            for (const [fieldName, field] of Object.entries(this.layout.fieldsText)) {
 
                 let text = '';
 
-                if (fieldName === 'fraction') {
-                    text = this.fraction.fraction;
+                if (fieldName === 'faction') {
+                    text = this.faction.faction;
                 }
 
                 if (fieldName === 'title') {
-                    text = this.fraction.title;
+                    text = this.faction.title;
                 }
 
                 const scaledSize =

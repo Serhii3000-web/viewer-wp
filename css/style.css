@@ -42,7 +42,8 @@ body {
 }
 
 .wrapper-slider {
-border: 10px solid rebeccapurple;
+/* border: 10px solid rebeccapurple; */
+
   background: radial-gradient(circle at center, #2f3f44 0%, #1b2427 100%);
   font-family: var(--userfont);
 	font-size: var(--regular-text);
@@ -57,7 +58,7 @@ border: 10px solid rebeccapurple;
 }
 
 .carousel {
-border: 7px solid rgb(222, 205, 17);
+/* border: 7px solid rgb(222, 205, 17); */
 
     display: flex;
     flex-direction: column;
@@ -73,7 +74,7 @@ border: 7px solid rgb(222, 205, 17);
 }
 
 .carousel__track {
-border: 5px solid rgb(10, 32, 198);
+/* border: 5px solid rgb(10, 32, 198); */
 
     flex: 1;
     align-self: stretch;
@@ -110,7 +111,7 @@ border: 5px solid rgb(10, 32, 198);
 }
 
 .viewer-card__panel {
-border: 3px solid rgb(158, 47, 255);
+/* border: 3px solid rgb(158, 47, 255); */
 
     position: absolute;
     top: 10%;
@@ -125,7 +126,7 @@ border: 3px solid rgb(158, 47, 255);
 }
 
 .viewer-card__panel--left {
-  border: 2px solid rgb(47, 193, 255);
+  /* border: 2px solid rgb(47, 193, 255); */
 
     background-image: url('../img/Block 1 Left.png');
     background-repeat: no-repeat;
@@ -140,7 +141,7 @@ border: 3px solid rgb(158, 47, 255);
 }
 
 .viewer-card__panel--right{
-border: 2px solid rgb(232, 208, 30);
+/* border: 2px solid rgb(232, 208, 30); */
 
     background-image: url('../img/Block 2 Right.png');
     background-repeat: no-repeat;
@@ -156,7 +157,7 @@ border: 2px solid rgb(232, 208, 30);
 
 .viewer-card__title,
 .viewer-card__info {
-border: 3px solid yellow;
+/* border: 3px solid yellow; */
 
     margin: 0;
     padding: clamp(6px, 1vw, 12px) clamp(12px, 2vw, 30px);
@@ -210,11 +211,21 @@ border: 3px solid yellow;
     position: absolute;
     top: 50%;
 
+    background-color: rgba(255,255,255,.1);
+    border: 1px solid rgba(255,255,255,.3);
+    border-radius: 10%;
+    color: aliceblue;
+
     padding: 10px 20px;
     cursor: pointer;
     opacity: 0.6;
 
     transform: translateY(-50%);
+}
+
+.carousel__button-below--prevBtn:hover,
+.carousel__button-below--nextBtn:hover {
+    background: rgba(255,255,255,.2);
 }
 
 .carousel__button-below--prevBtn {

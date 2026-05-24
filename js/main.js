@@ -117,8 +117,6 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 viewer.deactivate();
             }
-
-console.log('cards.length = ', cards.length);
         });
 
         viewers[activeIndex].resizeCanvas();
@@ -127,19 +125,6 @@ console.log('cards.length = ', cards.length);
     updateActiveCard(cardInfoLength);
 
 // ---------- prev Btn-Below -----------------------------------
-                // document
-                //     .querySelector('.carousel__button-below--prevBtn')
-                //     .addEventListener('click', () => {
-                        
-                //         activeIndex--;
-
-                //         if (activeIndex < 0) {
-                //             activeIndex = cards.length - 1;
-                //         }
-
-                //     updateActiveCard(cardInfoLength);
-                // });
-
     document
             .querySelectorAll('.carousel__button-below--prevBtn')
             .forEach((prevBtn) => { 
@@ -156,39 +141,27 @@ console.log('cards.length = ', cards.length);
             });
 
 // ---------- next Btn-Below ----------
-    document
-        .querySelector('.carousel__button-below--nextBtn')
-        .addEventListener('click', () => {
-            
-            activeIndex++;
+        document
+            .querySelectorAll('.carousel__button-below--nextBtn')
+            .forEach((nextBtn) => { 
+                nextBtn.addEventListener('click', () => {
+                
+                        activeIndex++;
 
-            if (activeIndex >= cards.length) {
-                activeIndex = 0;
-            }
+                        if (activeIndex >= cards.length) {
+                            activeIndex = 0;
+                        }
 
-        updateActiveCard(cardInfoLength);
-    });
+                    updateActiveCard(cardInfoLength);
+                });
+            });
 
 
 // ---------- next Btn-Bottom ----------
-                // document
-                //     .querySelector('.hud__slider-next')
-                //     .addEventListener('click', () => {
-
-                //         activeIndex--;
-
-                //         if (activeIndex < 0) {
-                //             activeIndex = cards.length - 1;
-                //         }
-
-                //     updateActiveCard(cardInfoLength);
-                // });
-
-
         document
             .querySelectorAll('.hud__slider-next')
-            .forEach((prevBtn) => { 
-                prevBtn.addEventListener('click', () => {
+            .forEach((nextBtn) => { 
+                nextBtn.addEventListener('click', () => {
                 
                         activeIndex--;
 
@@ -201,19 +174,6 @@ console.log('cards.length = ', cards.length);
             });
 
 // ---------- prev Btn-Bottom ------------------------------------
-                // document
-                //     .querySelector('.hud__slider-prev')
-                //     .addEventListener('click', () => {
-                        
-                //         activeIndex++;
-
-                //         if (activeIndex >= cards.length) {
-                //             activeIndex = 0;
-                //         }
-
-                //     updateActiveCard(cardInfoLength);
-                // });
-
         document
             .querySelectorAll('.hud__slider-prev')
             .forEach((prevBtn) => { 
