@@ -26,7 +26,20 @@ class HudWH {
         this.ctx = this.canvas.ctx;
         this.image = new Image();
 
+        this.resizeFrame = null;
+
+        this.handleResize =
+            this.handleResize.bind(this);
+
+        window.addEventListener(
+            'resize',
+            this.handleResize
+        );
+
         this.image.onload = () => {
+
+            this.canvas.resize();
+
             this.render();
         };
 
@@ -34,7 +47,20 @@ class HudWH {
     }
 
     /* ====================================== */
+    handleResize() {
 
+        cancelAnimationFrame(
+            this.resizeFrame
+        );
+
+        this.resizeFrame =
+            requestAnimationFrame(() => {
+                this.canvas.resize();
+                this.render();
+            });
+    }
+
+    /* ====================================== */
     build() {
         this.root.replaceChildren();
 
@@ -60,7 +86,6 @@ class HudWH {
     }
 
     /* ====================================== */
-
     render() {
         const width = this.canvas.canvas.clientWidth;
         const height = this.canvas.canvas.clientHeight;
@@ -98,8 +123,13 @@ class HudWH {
     }
 
     /* ====================================== */
-
     destroy() {
+
+        window.removeEventListener(
+            'resize',
+            this.handleResize
+        );
+
         this.canvas.destroy();
     }
 }

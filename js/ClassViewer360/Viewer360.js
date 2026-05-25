@@ -12,7 +12,6 @@ class Viewer360 {
 
         // ---------- canvas ----------
         this.canvasElement = element.querySelector('.viewer-360__canvas');
-
         this.canvas = new CanvasBase(this.canvasElement);
         this.ctx = this.canvas.ctx;
 
@@ -93,50 +92,60 @@ class Viewer360 {
     // ---------- resize Canvas ----------
     resizeCanvas() {
 
-        // offsetParent - встроенное свойство элемента,
-        // которое возвращает ближайшего предка (родителя),
-        // относительно которого позиционируется данный элемент.
         if (this.element.offsetParent === null) {
             return;
         }
 
-        // clientWidth — это свойство в JavaScript,
-        // которое возвращает внутреннюю ширину HTML-элемента в пикселях.
-        // Оно включает область содержимого и внутренние отступы (padding),
-        // но не включает рамки (border), внешние отступы (margin) и полосу прокрутки.
-        const width = this.element.clientWidth;
-        const height = this.element.clientHeight;
-        const dpr = window.devicePixelRatio || 1;
+        this.canvas.resize();
 
-        this.canvas.width = width * dpr;
-        this.canvas.height = height * dpr;
-        this.canvas.style.width = width + 'px';
-        this.canvas.style.height = height + 'px';
-        this.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
         this.draw();
     }
 
     // ---------- draw ----------
     draw() {
-        const imagesWH = this.images[this.currentFrame];
 
-        if (!imagesWH || !this.loaded[this.currentFrame]) {
+        const imagesWH =
+            this.images[this.currentFrame];
+
+        if (
+            !imagesWH ||
+            !this.loaded[this.currentFrame]
+        ) {
             return;
         }
 
-        this.ctx.clearRect(0, 0, this.element.clientWidth, this.element.clientHeight);
+        const width =
+            this.canvas.canvas.clientWidth;
+
+        const height =
+            this.canvas.canvas.clientHeight;
+
+        this.ctx.clearRect(
+            0,
+            0,
+            width,
+            height
+        );
 
         const scale = Math.min(
-            this.element.clientWidth / imagesWH.width,
-            this.element.clientHeight / imagesWH.height
+            width / imagesWH.width,
+            height / imagesWH.height
         );
+
         const w = imagesWH.width * scale;
         const h = imagesWH.height * scale;
-        const x = (this.element.clientWidth - w) / 2;
-        const y = (this.element.clientHeight - h) / 2;
 
-        this.ctx.drawImage(imagesWH, x, y, w, h);
-    };
+        const x = (width - w) / 2;
+        const y = (height - h) / 2;
+
+        this.ctx.drawImage(
+            imagesWH,
+            x,
+            y,
+            w,
+            h
+        );
+    }
 
     // ==================================================================
     // ---------- show ----------
@@ -176,7 +185,7 @@ class Viewer360 {
     initEvents() {
 
         // mouse down
-        this.canvasElement.addEventListener('mousedown', (e) => {
+        this.canvas.canvas.addEventListener('mousedown', (e) => {
             this.isDragging = true;
             this.lastX = e.clientX;
         });
@@ -193,7 +202,7 @@ class Viewer360 {
         });
 
         // touch start
-        this.canvasElement.addEventListener('touchstart', (e) => {
+        this.canvas.canvas.addEventListener('touchstart', (e) => {
             this.isDragging = true;
             this.lastX = e.touches[0].clientX;
         });
@@ -204,7 +213,7 @@ class Viewer360 {
         });
 
         // touch move
-        this.canvasElement.addEventListener(
+        this.canvas.canvas.addEventListener(
             'touchmove',
             (e) => {
                 if (!this.isDragging) {

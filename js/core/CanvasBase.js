@@ -21,19 +21,19 @@ class CanvasBase {
         if (!this.isValid) return;
 
         const dpr = window.devicePixelRatio || 1;
-        const rect = this.canvas.getBoundingClientRect();
 
-        this.canvas.width = rect.width * dpr;
-        this.canvas.height = rect.height * dpr;
+        const rect =
+            this.canvas.getBoundingClientRect();
 
-        this.ctx.setTransform(
-            dpr,
-            0,
-            0,
-            dpr,
-            0,
-            0
-        );
+        this.canvas.width =
+            Math.round(rect.width * dpr);
+
+        this.canvas.height =
+            Math.round(rect.height * dpr);
+
+        this.ctx.resetTransform();
+
+        this.ctx.scale(dpr, dpr);
     }
 
     /* ====================================== */
